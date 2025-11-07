@@ -14,7 +14,7 @@ export function Dashboard({ totalJobs, matchedJobs, appliedJobs, responseRate }:
     <div className="space-y-6">
       <div>
         <h2 className='text-primary text-2xl font-bold'>Dashboard</h2>
-        <p className="italic">Overview of your job search activity</p>
+        <p className="">Overview of your job search activity</p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

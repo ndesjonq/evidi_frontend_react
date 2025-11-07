@@ -57,7 +57,7 @@ export function JobList({ jobs, onSelectJob }: JobListProps) {
     <div className="space-y-6">
       <div>
         <h2 className='text-primary text-2xl font-bold'>Job Offers</h2>
-        <p className='italic'>
+        <p className=''>
           Browse and filter collected job opportunities
         </p>
       </div>

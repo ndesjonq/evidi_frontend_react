@@ -55,7 +55,7 @@ export function FilterConfiguration({ filters, onUpdateFilters }: FilterConfigur
     <div className="space-y-6">
       <div>
         <h2 className='text-primary text-2xl font-bold'>Filter Configuration</h2>
-        <p className="italic">Define criteria to automatically filter job offers</p>
+        <p className="">Define criteria to automatically filter job offers</p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">

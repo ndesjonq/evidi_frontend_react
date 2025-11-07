@@ -98,7 +98,7 @@ export function Settings() {
     <div className="space-y-6">
       <div>
         <h2 className='text-primary text-2xl font-bold'>Settings</h2>
-        <p className="italic">
+        <p className="">
           Manage your account settings and preferences
         </p>
       </div>

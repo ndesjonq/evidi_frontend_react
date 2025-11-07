@@ -65,7 +65,7 @@ export function CVUpload({ onExtractFilters }: CVUploadProps) {
     <div className="space-y-6">
       <div>
         <h2 className='text-primary text-2xl font-bold'>CV Analysis</h2>
-        <p className="italic">
+        <p className="">
           Upload your CV to automatically extract filter criteria
         </p>
       </div>

@@ -32,6 +32,7 @@ module.exports = {
         "checkbox-checkmark": "var(--checkbox-checkmark)",
         
         "toggle-background": "var(--toggle-background)",
+        "toggle-background-unchecked": "var(--toggle-background-unchecked)",
         "toggle-foreground": "var(--toggle-foreground)",  
 
         "tabs-background": "var(--tabs-background)",

@@ -64,7 +64,7 @@ export function JobSources({ sources, onAddSource, onToggleSource, onDeleteSourc
       <div className="flex items-center justify-between">
         <div>
           <h2 className='text-primary text-2xl font-bold'>Job Sources</h2>
-          <p className="italic">
+          <p className="">
             Manage where job offers are collected from
           </p>
         </div>

@@ -43,6 +43,7 @@ code {
     --checkbox-checkmark: #030213;
 
     --toggle-background: #000000;
+    --toggle-background-unchecked: #dcdcdc;
     --toggle-foreground: #ffffff;
 
     --tabs-background: #ececf0;
@@ -92,6 +93,7 @@ code {
     --checkbox-checkmark: #ffffff;
 
     --toggle-background: #5865f2;
+    --toggle-background-unchecked: #3e3e42;
     --toggle-foreground: #ffffff;
 
     --tabs-background: #2f3136;
