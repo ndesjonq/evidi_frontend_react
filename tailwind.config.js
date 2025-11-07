@@ -11,6 +11,7 @@ module.exports = {
 
         "primary": "var(--primary)",
         "secondary": "var(--secondary)",
+        "ternary": "var(--ternary)",
         "link": "var(--link)",
 
         "button-background": "var(--button-background)",

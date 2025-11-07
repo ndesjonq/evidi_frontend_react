@@ -134,7 +134,7 @@ export function JobSources({ sources, onAddSource, onToggleSource, onDeleteSourc
             <CardHeader>
               <div className="flex items-start justify-between">
                 <div className="flex items-start gap-3">
-                  <div className="p-2 rounded-lg bg-muted">
+                  <div className="p-2 rounded-lg bg-ternary">
                     {getSourceIcon(source.type)}
                   </div>
                   <div>
