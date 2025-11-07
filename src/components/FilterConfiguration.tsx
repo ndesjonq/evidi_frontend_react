@@ -20,12 +20,14 @@ export function FilterConfiguration({ filters, onUpdateFilters }: FilterConfigur
   const [newLocation, setNewLocation] = useState('');
 
   const addItem = (field: keyof FilterCriteria, value: string) => {
-    if (value.trim()) {
-      onUpdateFilters({
-        ...filters,
-        [field]: [...filters[field], value.trim()],
-      });
-    }
+    const v = value.trim();
+    if (!v) return;
+    // avoid duplicate additions (optional)
+    if (filters[field].includes(v)) return;
+    onUpdateFilters({
+      ...filters,
+      [field]: [...filters[field], v],
+    });
   };
 
   const removeItem = (field: keyof FilterCriteria, index: number) => {
@@ -57,6 +59,7 @@ export function FilterConfiguration({ filters, onUpdateFilters }: FilterConfigur
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
+        {/* Technology Stack */}
         <Card>
           <CardHeader>
             <CardTitle className='text-primary font-semibold'>Technology Stack</CardTitle>
@@ -68,7 +71,7 @@ export function FilterConfiguration({ filters, onUpdateFilters }: FilterConfigur
                 placeholder="e.g., React, TypeScript, Node.js"
                 value={newStackItem}
                 onChange={(e) => setNewStackItem(e.target.value)}
-                onKeyPress={(e) => {
+                onKeyDown={(e) => {
                   if (e.key === 'Enter') {
                     addItem('stack', newStackItem);
                     setNewStackItem('');
@@ -86,18 +89,26 @@ export function FilterConfiguration({ filters, onUpdateFilters }: FilterConfigur
             </div>
             <div className="flex flex-wrap gap-2">
               {filters.stack.map((item, index) => (
-                <Badge key={index} variant="secondary" className="gap-1">
-                  {item}
-                  <X
-                    className="h-3 w-3 cursor-pointer"
-                    onClick={() => removeItem('stack', index)}
-                  />
+                <Badge key={`${item}-${index}`} variant="secondary" className="gap-1">
+                  <span className="max-w-xs truncate">{item}</span>
+                  <button
+                    type="button"
+                    aria-label={`Remove ${item}`}
+                    className="inline-flex items-center justify-center p-1 rounded hover:bg-muted focus:outline-none"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeItem('stack', index);
+                    }}
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
                 </Badge>
               ))}
             </div>
           </CardContent>
         </Card>
 
+        {/* Experience Level */}
         <Card>
           <CardHeader>
             <CardTitle className='text-primary font-semibold'>Experience Level</CardTitle>
@@ -119,6 +130,7 @@ export function FilterConfiguration({ filters, onUpdateFilters }: FilterConfigur
           </CardContent>
         </Card>
 
+        {/* Keywords */}
         <Card>
           <CardHeader>
             <CardTitle className='text-primary font-semibold'>Keywords</CardTitle>
@@ -130,7 +142,7 @@ export function FilterConfiguration({ filters, onUpdateFilters }: FilterConfigur
                 placeholder="e.g., remote, startup, agile"
                 value={newKeyword}
                 onChange={(e) => setNewKeyword(e.target.value)}
-                onKeyPress={(e) => {
+                onKeyDown={(e) => {
                   if (e.key === 'Enter') {
                     addItem('keywords', newKeyword);
                     setNewKeyword('');
@@ -148,18 +160,26 @@ export function FilterConfiguration({ filters, onUpdateFilters }: FilterConfigur
             </div>
             <div className="flex flex-wrap gap-2">
               {filters.keywords.map((item, index) => (
-                <Badge key={index} variant="secondary" className="gap-1">
-                  {item}
-                  <X
-                    className="h-3 w-3 cursor-pointer"
-                    onClick={() => removeItem('keywords', index)}
-                  />
+                <Badge key={`${item}-${index}`} variant="secondary" className="gap-1">
+                  <span className="max-w-xs truncate">{item}</span>
+                  <button
+                    type="button"
+                    aria-label={`Remove ${item}`}
+                    className="inline-flex items-center justify-center p-1 rounded hover:bg-muted focus:outline-none"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeItem('keywords', index);
+                    }}
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
                 </Badge>
               ))}
             </div>
           </CardContent>
         </Card>
 
+        {/* Exclude Keywords */}
         <Card>
           <CardHeader>
             <CardTitle className='text-primary font-semibold'>Exclude Keywords</CardTitle>
@@ -171,7 +191,7 @@ export function FilterConfiguration({ filters, onUpdateFilters }: FilterConfigur
                 placeholder="e.g., unpaid, intern"
                 value={newExcludeKeyword}
                 onChange={(e) => setNewExcludeKeyword(e.target.value)}
-                onKeyPress={(e) => {
+                onKeyDown={(e) => {
                   if (e.key === 'Enter') {
                     addItem('excludeKeywords', newExcludeKeyword);
                     setNewExcludeKeyword('');
@@ -189,18 +209,26 @@ export function FilterConfiguration({ filters, onUpdateFilters }: FilterConfigur
             </div>
             <div className="flex flex-wrap gap-2">
               {filters.excludeKeywords.map((item, index) => (
-                <Badge key={index} variant="destructive" className="gap-1">
-                  {item}
-                  <X
-                    className="h-3 w-3 cursor-pointer"
-                    onClick={() => removeItem('excludeKeywords', index)}
-                  />
+                <Badge key={`${item}-${index}`} variant="destructive" className="gap-1">
+                  <span className="max-w-xs truncate">{item}</span>
+                  <button
+                    type="button"
+                    aria-label={`Remove ${item}`}
+                    className="inline-flex items-center justify-center p-1 rounded hover:bg-muted focus:outline-none"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeItem('excludeKeywords', index);
+                    }}
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
                 </Badge>
               ))}
             </div>
           </CardContent>
         </Card>
 
+        {/* Locations */}
         <Card>
           <CardHeader>
             <CardTitle className='text-primary font-semibold'>Locations</CardTitle>
@@ -212,7 +240,7 @@ export function FilterConfiguration({ filters, onUpdateFilters }: FilterConfigur
                 placeholder="e.g., Remote, San Francisco, New York"
                 value={newLocation}
                 onChange={(e) => setNewLocation(e.target.value)}
-                onKeyPress={(e) => {
+                onKeyDown={(e) => {
                   if (e.key === 'Enter') {
                     addItem('location', newLocation);
                     setNewLocation('');
@@ -230,18 +258,26 @@ export function FilterConfiguration({ filters, onUpdateFilters }: FilterConfigur
             </div>
             <div className="flex flex-wrap gap-2">
               {filters.location.map((item, index) => (
-                <Badge key={index} variant="secondary" className="gap-1">
-                  {item}
-                  <X
-                    className="h-3 w-3 cursor-pointer"
-                    onClick={() => removeItem('location', index)}
-                  />
+                <Badge key={`${item}-${index}`} variant="secondary" className="gap-1">
+                  <span className="max-w-xs truncate">{item}</span>
+                  <button
+                    type="button"
+                    aria-label={`Remove ${item}`}
+                    className="inline-flex items-center justify-center p-1 rounded hover:bg-muted focus:outline-none"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeItem('location', index);
+                    }}
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
                 </Badge>
               ))}
             </div>
           </CardContent>
         </Card>
 
+        {/* Job Type */}
         <Card>
           <CardHeader>
             <CardTitle className='text-primary font-semibold'>Job Type</CardTitle>

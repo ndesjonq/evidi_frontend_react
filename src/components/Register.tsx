@@ -111,9 +111,6 @@ export function Register({ onRegister, onSwitchToLogin }: RegisterProps) {
           </form>
           <div className="mt-6 text-center space-y-2">
             <p className="text-sm text-primary">
-              Demo: Registration creates a mock account
-            </p>
-            <p className="text-sm text-primary">
               Already have an account?{' '}
               <button
                 type="button"

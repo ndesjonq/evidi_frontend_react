@@ -70,9 +70,6 @@ export function Login({ onLogin, onSwitchToRegister }: LoginProps) {
           </form>
           <div className="mt-6 text-center space-y-2">
             <p className="text-sm text-primary">
-              Demo: Use any email and password to login
-            </p>
-            <p className="text-sm text-primary">
               Don't have an account?{' '}
               <button
                 type="button"
