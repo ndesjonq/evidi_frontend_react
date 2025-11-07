@@ -19,7 +19,7 @@ Theme can be switched dynamically in the UI.
 
 ⚙️ Installation & Setup
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/evidi-frontend.git
+git clone https://github.com/ndesjonq/evidi_frontend_react.git
 cd evidi-frontend
 
 # Install dependencies
