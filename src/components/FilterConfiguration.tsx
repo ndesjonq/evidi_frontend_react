@@ -53,7 +53,7 @@ export function FilterConfiguration({ filters, onUpdateFilters }: FilterConfigur
     <div className="space-y-6">
       <div>
         <h2>Filter Configuration</h2>
-        <p className="text-muted-foreground">
+        <p className="text-primary">
           Define criteria to automatically filter job offers
         </p>
       </div>

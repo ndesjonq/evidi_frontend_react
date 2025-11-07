@@ -64,7 +64,7 @@ export function JobSources({ sources, onAddSource, onToggleSource, onDeleteSourc
       <div className="flex items-center justify-between">
         <div>
           <h2>Job Sources</h2>
-          <p className="text-muted-foreground">
+          <p className="text-primary">
             Manage where job offers are collected from
           </p>
         </div>
@@ -157,7 +157,7 @@ export function JobSources({ sources, onAddSource, onToggleSource, onDeleteSourc
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <div>
-                    <p className="text-muted-foreground">
+                    <p className="text-primary">
                       Last synced
                     </p>
                     <p>{formatLastSync(source.lastSync)}</p>

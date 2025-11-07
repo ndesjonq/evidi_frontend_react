@@ -57,7 +57,7 @@ export function JobList({ jobs, onSelectJob }: JobListProps) {
     <div className="space-y-6">
       <div>
         <h2>Job Offers</h2>
-        <p className="text-muted-foreground">
+        <p className="text-primary">
           Browse and filter collected job opportunities
         </p>
       </div>
@@ -92,7 +92,7 @@ export function JobList({ jobs, onSelectJob }: JobListProps) {
             {sortedJobs.length === 0 ? (
               <Card>
                 <CardContent className="flex items-center justify-center h-40">
-                  <p className="text-muted-foreground">No jobs found matching your criteria</p>
+                  <p className="text-primary">No jobs found matching your criteria</p>
                 </CardContent>
               </Card>
             ) : (
@@ -132,7 +132,7 @@ export function JobList({ jobs, onSelectJob }: JobListProps) {
                       <div className="flex flex-col items-end gap-2">
                         <Badge variant="outline">{job.type}</Badge>
                         {job.salary && (
-                          <span className="text-muted-foreground">
+                          <span className="text-primary">
                             {job.salary}
                           </span>
                         )}
@@ -149,12 +149,12 @@ export function JobList({ jobs, onSelectJob }: JobListProps) {
                         ))}
                       </div>
                       {job.aiSummary && (
-                        <div className="p-3 bg-muted rounded-lg">
-                          <p className="text-muted-foreground">{job.aiSummary}</p>
+                        <div className="p-3 bg-tabs-background rounded-lg">
+                          <p className="text-primary">{job.aiSummary}</p>
                         </div>
                       )}
                       <div className="flex items-center justify-between pt-2">
-                        <span className="text-muted-foreground">
+                        <span className="text-primary">
                           Source: {job.source}
                         </span>
                         <Button variant="ghost" size="sm" asChild>

@@ -166,8 +166,8 @@ Best regards`;
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="p-4 bg-muted rounded-lg">
-                  <p>{job.aiSummary}</p>
+                <div className="p-4 bg-tabs-background rounded-lg">
+                  <p className="text-primary">{job.aiSummary}</p>
                 </div>
 
                 <div>
@@ -178,9 +178,9 @@ Best regards`;
                         <span>Skills Match</span>
                         <span>{Math.round(job.matchScore * 0.9)}%</span>
                       </div>
-                      <div className="w-full bg-secondary rounded-full h-2">
+                      <div className="w-full bg-card-bar-background rounded-full h-2">
                         <div
-                          className="bg-primary h-2 rounded-full"
+                          className="bg-card-bar h-2 rounded-full"
                           style={{ width: `${job.matchScore * 0.9}%` }}
                         />
                       </div>
@@ -191,9 +191,9 @@ Best regards`;
                         <span>Experience Level</span>
                         <span>{job.matchScore}%</span>
                       </div>
-                      <div className="w-full bg-secondary rounded-full h-2">
+                      <div className="w-full bg-card-bar-background rounded-full h-2">
                         <div
-                          className="bg-primary h-2 rounded-full"
+                          className="bg-card-bar h-2 rounded-full"
                           style={{ width: `${job.matchScore}%` }}
                         />
                       </div>
@@ -204,9 +204,9 @@ Best regards`;
                         <span>Location Preference</span>
                         <span>{Math.round(job.matchScore * 1.05)}%</span>
                       </div>
-                      <div className="w-full bg-secondary rounded-full h-2">
+                      <div className="w-full bg-card-bar-background rounded-full h-2">
                         <div
-                          className="bg-primary h-2 rounded-full"
+                          className="bg-card-bar h-2 rounded-full"
                           style={{ width: `${Math.min(job.matchScore * 1.05, 100)}%` }}
                         />
                       </div>
@@ -218,7 +218,7 @@ Best regards`;
                   <h3 className="mb-2">Matching Skills</h3>
                   <div className="flex flex-wrap gap-2">
                     {job.stack.map((tech, i) => (
-                      <Badge key={i} variant="default">
+                      <Badge key={i} variant="secondary">
                         {tech}
                       </Badge>
                     ))}
@@ -239,8 +239,8 @@ Best regards`;
               <CardContent className="space-y-4">
                 {!motivationLetter ? (
                   <div className="flex flex-col items-center justify-center py-12">
-                    <Sparkles className="h-12 w-12 text-muted-foreground mb-4" />
-                    <p className="text-muted-foreground mb-4 text-center">
+                    <Sparkles className="h-12 w-12 text-primary mb-4" />
+                    <p className="text-primary mb-4 text-center">
                       Generate a customized motivation letter based on your profile and this job posting
                     </p>
                     <Button onClick={handleGenerateLetter} disabled={isGeneratingLetter}>

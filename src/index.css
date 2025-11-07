@@ -2,45 +2,69 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Theme tokens (shadcn-style) */
-:root {
-  --background: 0 0% 100%;
-  --foreground: 222.2 47.4% 11.2%;
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
-  --border: 214.3 31.8% 91.4%;
-}
-
-.dark {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-  --border: 217.2 32.6% 17.5%;
-}
-
 /* Optional: smoother text, reset bits */
 * { box-sizing: border-box; }
 html, body, #root { height: 100%; }
-body { background-color: hsl(var(--background)); color: hsl(var(--foreground)); }
+body { background-color: var(--background); color: var(--foreground); }
 body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
-
-/* body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-} */
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
-/* ---- shadcn-style tokens + sane defaults ---- */
 @layer base {
+  :root {
+  --background: oklch(100% 0.00011 271.152);
+  --foreground: oklch(0.145 0 0);
+  --border: #e8e8e8;
+
+  --primary: #000000;
+  --secondary: #717182;
+  --link: #0000ff;
+
+  --button-background: #000000;
+  --button-border: #000000;
+  --button-hover: #323232;
+  --button-text: #ffffff;
+
+  --button-secondary-background: #e9ebef;
+  --button-secondary-border: rgba(0,0,0,0.1);
+  --button-secondary-hover: oklch(89% 0 0);
+  --button-secondary-text: #030213;
+
+  --checkbox-background: #ffffff;
+  --checkbox-foreground: #ffffff;
+  --checkbox-border: rgba(0,0,0,0.2);
+  --checkbox-checkmark: #030213;
+
+  --toggle-background: #cbced4;
+  --toggle-foreground: #ffffff;
+
+  --tabs-background: #ececf0;
+  --tabs-foreground: #ffffff;
+  --tabs-text: #000000;
+
+  --card-background: #ffffff;
+  --card-foreground: oklch(0.145 0 0);
+  --card-border: rgba(0,0,0,0.1);
+  --card-text: oklch(0.145 0 0);
+  --card-bar: #5865f2;
+  --card-bar-background: #e8e8e8;
+  --card-badge: #e8e8e8;
+  --card-badge-highlight: #5865f2;
+
+  --input-background: #f3f3f5;
+  --input-text: oklch(0.145 0 0);
+  --input-border: rgba(0,0,0,0.1);
+  }
+
+  * { @apply border-border; border-color: var(--border); }
+  body { @apply bg-background text-foreground; }
+}
+
+/* ---- shadcn-style tokens + sane defaults ---- */
+ /* @layer base {
 :root {
     --font-size: 16px;
     --background: oklch(100% 0.00011 271.152);
@@ -60,7 +84,7 @@ code {
     --destructive: #d4183d;
     --destructive-foreground: #ffffff;
     --border: rgba(0, 0, 0, 0.1);
-    --input: oklch(100% 0.00011 271.152); /*transparent;*/
+    --input: oklch(100% 0.00011 271.152); 
     --input-background: #f3f3f5;
     --switch-background: #cbced4;
     --font-weight-medium: 500;
@@ -82,7 +106,6 @@ code {
     --sidebar-ring: oklch(0.708 0 0);
   }
 
-  /* Dark */
   .dark {
     --background: oklch(0.145 0 0);
     --foreground: oklch(0.985 0 0);
@@ -118,7 +141,6 @@ code {
     --sidebar-ring: oklch(0.439 0 0);
   }
 
-  /* Theme overrides */
   .theme-black {
     --background: #1e1e1e;
     --foreground: #d4d4d4;
@@ -226,6 +248,6 @@ code {
     --sidebar-ring: #22c55e;
   }
 
-  * { @apply border-border; border-color: hsl(var(--border)); }
+  * { @apply border-border; border-color: var(--border); }
   body { @apply bg-background text-foreground; }
-}
+}  */

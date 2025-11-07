@@ -34,7 +34,7 @@ export function ThemeSwitcher({ currentTheme, onThemeChange }: ThemeSwitcherProp
           >
             <div>
               <div>{theme.label}</div>
-              <div className="text-xs text-muted-foreground">{theme.description}</div>
+              <div className="text-xs text-primary">{theme.description}</div>
             </div>
             {currentTheme === theme.value && <Check className="h-4 w-4" />}
           </DropdownMenuItem>

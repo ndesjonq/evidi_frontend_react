@@ -98,7 +98,7 @@ export function Settings() {
     <div className="space-y-6">
       <div>
         <h1>Settings</h1>
-        <p className="text-muted-foreground">
+        <p className="text-primary">
           Manage your account settings and preferences
         </p>
       </div>
@@ -207,7 +207,7 @@ export function Settings() {
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="email-notifications">Email Notifications</Label>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-primary">
                 Receive email notifications for new job matches
               </p>
             </div>
@@ -221,7 +221,7 @@ export function Settings() {
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="push-notifications">Push Notifications</Label>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-primary">
                 Receive push notifications for urgent updates
               </p>
             </div>
@@ -235,7 +235,7 @@ export function Settings() {
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="weekly-digest">Weekly Digest</Label>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-primary">
                 Get a weekly summary of your job search activity
               </p>
             </div>

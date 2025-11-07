@@ -43,7 +43,7 @@ export function Login({ onLogin, onSwitchToRegister }: LoginProps) {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className='text-primary'>Email</Label>
               <Input
                 id="email"
                 type="email"
@@ -69,15 +69,15 @@ export function Login({ onLogin, onSwitchToRegister }: LoginProps) {
             </Button>
           </form>
           <div className="mt-6 text-center space-y-2">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-primary">
               Demo: Use any email and password to login
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-primary">
               Don't have an account?{' '}
               <button
                 type="button"
                 onClick={onSwitchToRegister}
-                className="text-primary hover:underline"
+                className="text-link hover:underline"
               >
                 Create account
               </button>

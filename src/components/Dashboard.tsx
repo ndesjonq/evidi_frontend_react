@@ -13,16 +13,14 @@ export function Dashboard({ totalJobs, matchedJobs, appliedJobs, responseRate }:
   return (
     <div className="space-y-6">
       <div>
-        <h2>Dashboard</h2>
-        <p className="text-muted-foreground">
-          Overview of your job search activity
-        </p>
+        <h2 className='text-primary'>Dashboard</h2>
+        <p className="text-primary">Overview of your job search activity</p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle>Total Jobs</CardTitle>
+            <CardTitle className='text-primary'>Total Jobs</CardTitle>
             <Briefcase className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -35,7 +33,7 @@ export function Dashboard({ totalJobs, matchedJobs, appliedJobs, responseRate }:
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle>Matched Jobs</CardTitle>
+            <CardTitle className='text-primary'>Matched Jobs</CardTitle>
             <Filter className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -48,7 +46,7 @@ export function Dashboard({ totalJobs, matchedJobs, appliedJobs, responseRate }:
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle>Applications</CardTitle>
+            <CardTitle className='text-primary'>Applications</CardTitle>
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -61,7 +59,7 @@ export function Dashboard({ totalJobs, matchedJobs, appliedJobs, responseRate }:
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle>Response Rate</CardTitle>
+            <CardTitle className='text-primary'>Response Rate</CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -76,7 +74,7 @@ export function Dashboard({ totalJobs, matchedJobs, appliedJobs, responseRate }:
       <div className="grid gap-4 md:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>Recent Activity</CardTitle>
+            <CardTitle className='text-primary'>Recent Activity</CardTitle>
             <CardDescription>Latest job matches and applications</CardDescription>
           </CardHeader>
           <CardContent>
@@ -105,7 +103,7 @@ export function Dashboard({ totalJobs, matchedJobs, appliedJobs, responseRate }:
 
         <Card>
           <CardHeader>
-            <CardTitle>Top Skills in Demand</CardTitle>
+            <CardTitle className='text-primary'>Top Skills in Demand</CardTitle>
             <CardDescription>From matched job postings</CardDescription>
           </CardHeader>
           <CardContent>
@@ -122,9 +120,9 @@ export function Dashboard({ totalJobs, matchedJobs, appliedJobs, responseRate }:
                     <span>{item.skill}</span>
                     <span className="text-muted-foreground">{item.count} jobs</span>
                   </div>
-                  <div className="w-full bg-secondary rounded-full h-2">
+                  <div className="w-full bg-card-bar-background rounded-full h-2">
                     <div
-                      className="bg-primary h-2 rounded-full"
+                      className="bg-card-bar h-2 rounded-full"
                       style={{ width: `${item.percentage}%` }}
                     />
                   </div>

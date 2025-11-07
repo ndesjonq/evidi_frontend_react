@@ -65,7 +65,7 @@ export function CVUpload({ onExtractFilters }: CVUploadProps) {
     <div className="space-y-6">
       <div>
         <h2>CV Analysis</h2>
-        <p className="text-muted-foreground">
+        <p className="text-primary">
           Upload your CV to automatically extract filter criteria
         </p>
       </div>
@@ -91,10 +91,10 @@ export function CVUpload({ onExtractFilters }: CVUploadProps) {
                 htmlFor="cv-upload"
                 className="cursor-pointer flex flex-col items-center gap-2"
               >
-                <Upload className="h-10 w-10 text-muted-foreground" />
+                <Upload className="h-10 w-10 text-primary" />
                 <div>
                   <p>Click to upload or drag and drop</p>
-                  <p className="text-muted-foreground">
+                  <p className="text-primary">
                     PDF, DOC, DOCX, or TXT
                   </p>
                 </div>
@@ -106,7 +106,7 @@ export function CVUpload({ onExtractFilters }: CVUploadProps) {
                 <span className="w-full border-t" />
               </div>
               <div className="relative flex justify-center">
-                <span className="bg-background px-2 text-muted-foreground">
+                <span className="bg-background px-2 text-primary">
                   or paste text
                 </span>
               </div>
@@ -149,8 +149,8 @@ export function CVUpload({ onExtractFilters }: CVUploadProps) {
           <CardContent>
             {!extractedData ? (
               <div className="flex flex-col items-center justify-center h-[400px] text-center">
-                <Sparkles className="h-12 w-12 text-muted-foreground mb-4" />
-                <p className="text-muted-foreground">
+                <Sparkles className="h-12 w-12 text-primary mb-4" />
+                <p className="text-primary">
                   Upload or paste your CV and click "Extract Filters" to see
                   AI-analyzed results
                 </p>
