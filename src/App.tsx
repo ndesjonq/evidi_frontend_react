@@ -157,7 +157,7 @@ export default function App() {
 
       <main className="container mx-auto px-4 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="mb-8">
+          <TabsList className="mb-6">
             <TabsTrigger value="dashboard" className="gap-2">
               <Briefcase className="h-4 w-4" />
               Dashboard
@@ -178,10 +178,10 @@ export default function App() {
               <FileText className="h-4 w-4" />
               CV Analysis
             </TabsTrigger>
-            <TabsTrigger value="settings" className="gap-2">
+            {/* <TabsTrigger value="settings" className="gap-2">
               <Settings className="h-4 w-4" />
               Settings
-            </TabsTrigger>
+            </TabsTrigger> */}
           </TabsList>
 
           <TabsContent value="dashboard">
