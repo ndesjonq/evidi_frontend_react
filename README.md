@@ -1,7 +1,3 @@
-Here is your updated **README.md**:
-
----
-
 # **EVIDI – AI-Driven Job Search Assistant (Frontend)**
 
 ### 🎓 Academic Project – Software Engineering, Hanyang University (Exchange Semester)
