@@ -118,7 +118,7 @@ export function Register({ onRegister, onSwitchToLogin }: RegisterProps) {
               <button
                 type="button"
                 onClick={onSwitchToLogin}
-                className="text-primary hover:underline"
+                className="text-link hover:underline"
               >
                 Sign in
               </button>
