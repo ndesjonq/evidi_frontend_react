@@ -29,13 +29,13 @@ cd evidi-frontend
 npm install
 
 # Run development server
-npm run dev
+npm start
 ```
 
 Open in browser:
 
 ```
-http://localhost:5173/
+[http://localhost:3000/](http://localhost:3000/)
 ```
 
 ---
