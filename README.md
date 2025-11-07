@@ -1,46 +1,60 @@
-# Getting Started with Create React App
+Here is your updated **README.md**:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
 
-## Available Scripts
+# **EVIDI – AI-Driven Job Search Assistant (Frontend)**
 
-In the project directory, you can run:
+### 🎓 Academic Project – Software Engineering, Hanyang University (Exchange Semester)
 
-### `npm start`
+EVIDI is an intelligent job-search assistant that helps users optimize and automate their job search using AI-assisted filtering and profile analysis.
+This repository contains the **frontend implementation** of EVIDI, built as part of the **Software Engineering course** during an **exchange semester at Hanyang University**.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+---
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 🌗 UI Themes
 
-### `npm test`
+The application supports:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* ☀️ **Light Mode**
+* 🌙 **Dark Mode**
 
-### `npm run build`
+Theme can be switched dynamically in the UI.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## ⚙️ Installation & Setup
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```sh
+# Clone the repository
+git clone https://github.com/YOUR_USERNAME/evidi-frontend.git
+cd evidi-frontend
 
-### `npm run eject`
+# Install dependencies
+npm install
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+# Run development server
+npm run dev
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Open in browser:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```
+http://localhost:5173/
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+---
 
-## Learn More
+## 📌 Notes
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+* This repository contains **frontend code only**
+* Backend services, AI processing, and databases are **not included**
+* Job listings, filters, and sources currently use **mock data**
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
+
+## 📚 Course Information
+
+Part of the course:
+
+> **Software Engineering (CSE4006)**
+> Hanyang University, Seoul — Fall Semester (Exchange Program)
