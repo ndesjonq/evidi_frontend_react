@@ -125,7 +125,8 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b">
+      {/* Make header sticky so it remains visible while scrolling */}
+      <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
