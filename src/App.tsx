@@ -21,7 +21,6 @@ import React from "react";
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
-  // const [currentTheme, setCurrentTheme] = useState<ThemeColor>('default');
   const { theme, setTheme } = useTheme("default"); // or read from user setting
   const handleThemeChange = (t: ThemeColor) => setTheme(t);
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -39,14 +38,11 @@ export default function App() {
   const [isJobDetailOpen, setIsJobDetailOpen] = useState(false);
 
   const handleLogin = (email: string, password: string) => {
-    // In a real app, this would validate credentials
     setIsAuthenticated(true);
     setShowRegister(false);
   };
 
   const handleRegister = (name: string, email: string, password: string) => {
-    // In a real app, this would create a new account
-    // For demo, we'll just log them in
     setIsAuthenticated(true);
     setShowRegister(false);
   };
@@ -67,7 +63,7 @@ export default function App() {
   };
 
   const handleToggleSource = (id: string) => {
-    setSources(sources.map(s => 
+    setSources(sources.map(s =>
       s.id === id ? { ...s, enabled: !s.enabled } : s
     ));
   };
@@ -77,14 +73,13 @@ export default function App() {
   };
 
   const handleSyncSource = (id: string) => {
-    setSources(sources.map(s => 
+    setSources(sources.map(s =>
       s.id === id ? { ...s, lastSync: new Date().toISOString() } : s
     ));
   };
 
   const handleUpdateFilters = (newFilters: FilterCriteria) => {
     setFilters(newFilters);
-    // In a real app, this would trigger re-filtering of jobs
   };
 
   const handleExtractFilters = (extractedFilters: Partial<FilterCriteria>) => {
@@ -109,14 +104,14 @@ export default function App() {
   if (!isAuthenticated) {
     if (showRegister) {
       return (
-        <Register 
+        <Register
           onRegister={handleRegister}
           onSwitchToLogin={() => setShowRegister(false)}
         />
       );
     }
     return (
-      <Login 
+      <Login
         onLogin={handleLogin}
         onSwitchToRegister={() => setShowRegister(true)}
       />
@@ -124,66 +119,74 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Make header sticky so it remains visible while scrolling */}
-      <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Briefcase className="h-6 w-6" />
-              <h1>Evidi</h1>
-            </div>
-            <div className="flex items-center gap-2">
-              <ThemeSwitcher 
-                currentTheme={theme as ThemeColor}
-                onThemeChange={handleThemeChange}
-              />
-              <Button 
-                variant="outline" 
-                size="sm"
-                onClick={() => setActiveTab('settings')}
-              >
-                <Settings className="h-4 w-4 mr-2" />
-                Settings
-              </Button>
-              <Button variant="outline" size="sm" onClick={handleLogout}>
-                <LogOut className="h-4 w-4 mr-2" />
-                Logout
-              </Button>
+    // Lift Tabs to wrap header + main so the tab triggers can live in the header
+    <Tabs value={activeTab} onValueChange={setActiveTab}>
+      <div className="min-h-screen bg-background">
+        {/* Sticky header with tabs next to the logo */}
+        <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur-sm">
+          <div className="container mx-auto px-4 py-4">
+            <div className="flex items-center justify-between">
+              {/* left: logo + tabs */}
+              <div className="flex items-center gap-6">
+                <div className="flex items-center gap-2">
+                  <Briefcase className="h-6 w-6" />
+                  <h1 className="text-lg text-xl font-bold">Evidi</h1>
+                </div>
+
+                {/* Tabs placed in the header right after the logo */}
+                <TabsList className="flex items-center space-x-2">
+                  <TabsTrigger value="dashboard" className="gap-2">
+                    <Briefcase className="h-4 w-4" />
+                    <span>Dashboard</span>
+                  </TabsTrigger>
+
+                  <TabsTrigger value="jobs" className="gap-2">
+                    <List className="h-4 w-4" />
+                    <span>Jobs</span>
+                  </TabsTrigger>
+
+                  <TabsTrigger value="sources" className="gap-2">
+                    <Database className="h-4 w-4" />
+                    <span>Sources</span>
+                  </TabsTrigger>
+
+                  <TabsTrigger value="filters" className="gap-2">
+                    <Settings className="h-4 w-4" />
+                    <span>Filters</span>
+                  </TabsTrigger>
+
+                  <TabsTrigger value="cv" className="gap-2">
+                    <FileText className="h-4 w-4" />
+                    <span>CV Analysis</span>
+                  </TabsTrigger>
+                </TabsList>
+              </div>
+
+              {/* right: controls */}
+              <div className="flex items-center gap-2">
+                <ThemeSwitcher
+                  currentTheme={theme as ThemeColor}
+                  onThemeChange={handleThemeChange}
+                />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setActiveTab('settings')}
+                >
+                  <Settings className="h-4 w-4 mr-2" />
+                  Settings
+                </Button>
+                <Button variant="outline" size="sm" onClick={handleLogout}>
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Logout
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      <main className="container mx-auto px-4 py-8">
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="mb-6">
-            <TabsTrigger value="dashboard" className="gap-2">
-              <Briefcase className="h-4 w-4" />
-              Dashboard
-            </TabsTrigger>
-            <TabsTrigger value="jobs" className="gap-2">
-              <List className="h-4 w-4" />
-              Jobs
-            </TabsTrigger>
-            <TabsTrigger value="sources" className="gap-2">
-              <Database className="h-4 w-4" />
-              Sources
-            </TabsTrigger>
-            <TabsTrigger value="filters" className="gap-2">
-              <Settings className="h-4 w-4" />
-              Filters
-            </TabsTrigger>
-            <TabsTrigger value="cv" className="gap-2">
-              <FileText className="h-4 w-4" />
-              CV Analysis
-            </TabsTrigger>
-            {/* <TabsTrigger value="settings" className="gap-2">
-              <Settings className="h-4 w-4" />
-              Settings
-            </TabsTrigger> */}
-          </TabsList>
-
+        <main className="container mx-auto px-4 py-8">
+          {/* TabsContent remains in the main content area */}
           <TabsContent value="dashboard">
             <Dashboard
               totalJobs={totalJobs}
@@ -224,16 +227,16 @@ export default function App() {
           <TabsContent value="settings">
             <SettingsPage />
           </TabsContent>
-        </Tabs>
-      </main>
+        </main>
 
-      <JobDetail
-        job={selectedJob}
-        isOpen={isJobDetailOpen}
-        onClose={() => setIsJobDetailOpen(false)}
-      />
+        <JobDetail
+          job={selectedJob}
+          isOpen={isJobDetailOpen}
+          onClose={() => setIsJobDetailOpen(false)}
+        />
 
-      <Toaster />
-    </div>
+        <Toaster />
+      </div>
+    </Tabs>
   );
 }
