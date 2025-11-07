@@ -13,19 +13,19 @@ export function Dashboard({ totalJobs, matchedJobs, appliedJobs, responseRate }:
   return (
     <div className="space-y-6">
       <div>
-        <h2 className='text-primary'>Dashboard</h2>
-        <p className="text-primary">Overview of your job search activity</p>
+        <h2 className='text-primary text-2xl font-bold'>Dashboard</h2>
+        <p className="italic">Overview of your job search activity</p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className='text-primary'>Total Jobs</CardTitle>
-            <Briefcase className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className='text-primary font-semibold'>Total Jobs</CardTitle>
+            <Briefcase className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl">{totalJobs}</div>
-            <p className="text-muted-foreground">
+            <div className="text-card-badge-highlight font-bold text-3xl">{totalJobs}</div>
+            <p>
               Collected from all sources
             </p>
           </CardContent>
@@ -33,12 +33,12 @@ export function Dashboard({ totalJobs, matchedJobs, appliedJobs, responseRate }:
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className='text-primary'>Matched Jobs</CardTitle>
-            <Filter className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className='text-primary font-semibold'>Matched Jobs</CardTitle>
+            <Filter className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl">{matchedJobs}</div>
-            <p className="text-muted-foreground">
+            <div className="text-card-badge-highlight font-bold text-3xl">{matchedJobs}</div>
+            <p>
               Based on your criteria
             </p>
           </CardContent>
@@ -46,12 +46,12 @@ export function Dashboard({ totalJobs, matchedJobs, appliedJobs, responseRate }:
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className='text-primary'>Applications</CardTitle>
-            <FileText className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className='text-primary font-semibold'>Applications</CardTitle>
+            <FileText className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl">{appliedJobs}</div>
-            <p className="text-muted-foreground">
+            <div className="text-card-badge-highlight font-bold text-3xl">{appliedJobs}</div>
+            <p>
               Submitted this month
             </p>
           </CardContent>
@@ -59,12 +59,12 @@ export function Dashboard({ totalJobs, matchedJobs, appliedJobs, responseRate }:
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className='text-primary'>Response Rate</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className='text-primary font-semibold'>Response Rate</CardTitle>
+            <TrendingUp className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl">{responseRate}%</div>
-            <p className="text-muted-foreground">
+            <div className="text-card-badge-highlight font-bold text-3xl">{responseRate}%</div>
+            <p>
               From applications sent
             </p>
           </CardContent>
@@ -74,7 +74,7 @@ export function Dashboard({ totalJobs, matchedJobs, appliedJobs, responseRate }:
       <div className="grid gap-4 md:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle className='text-primary'>Recent Activity</CardTitle>
+            <CardTitle className='text-primary font-semibold'>Recent Activity</CardTitle>
             <CardDescription>Latest job matches and applications</CardDescription>
           </CardHeader>
           <CardContent>
@@ -87,13 +87,13 @@ export function Dashboard({ totalJobs, matchedJobs, appliedJobs, responseRate }:
                 <div key={i} className="flex items-center justify-between">
                   <div>
                     <p>{activity.title}</p>
-                    <p className="text-muted-foreground">{activity.company}</p>
+                    <p>{activity.company}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <Badge variant={activity.status === 'new' ? 'default' : 'secondary'}>
                       {activity.status}
                     </Badge>
-                    <span className="text-muted-foreground">{activity.time}</span>
+                    <span>{activity.time}</span>
                   </div>
                 </div>
               ))}
@@ -103,7 +103,7 @@ export function Dashboard({ totalJobs, matchedJobs, appliedJobs, responseRate }:
 
         <Card>
           <CardHeader>
-            <CardTitle className='text-primary'>Top Skills in Demand</CardTitle>
+            <CardTitle className='text-primary font-semibold'>Top Skills in Demand</CardTitle>
             <CardDescription>From matched job postings</CardDescription>
           </CardHeader>
           <CardContent>
@@ -118,7 +118,7 @@ export function Dashboard({ totalJobs, matchedJobs, appliedJobs, responseRate }:
                 <div key={item.skill}>
                   <div className="flex items-center justify-between mb-1">
                     <span>{item.skill}</span>
-                    <span className="text-muted-foreground">{item.count} jobs</span>
+                    <span>{item.count} jobs</span>
                   </div>
                   <div className="w-full bg-card-bar-background rounded-full h-2">
                     <div

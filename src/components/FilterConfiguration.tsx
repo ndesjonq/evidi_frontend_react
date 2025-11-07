@@ -52,16 +52,14 @@ export function FilterConfiguration({ filters, onUpdateFilters }: FilterConfigur
   return (
     <div className="space-y-6">
       <div>
-        <h2>Filter Configuration</h2>
-        <p className="text-primary">
-          Define criteria to automatically filter job offers
-        </p>
+        <h2 className='text-primary text-2xl font-bold'>Filter Configuration</h2>
+        <p className="italic">Define criteria to automatically filter job offers</p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>Technology Stack</CardTitle>
+            <CardTitle className='text-primary font-semibold'>Technology Stack</CardTitle>
             <CardDescription>Skills and technologies you're looking for</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -102,7 +100,7 @@ export function FilterConfiguration({ filters, onUpdateFilters }: FilterConfigur
 
         <Card>
           <CardHeader>
-            <CardTitle>Experience Level</CardTitle>
+            <CardTitle className='text-primary font-semibold'>Experience Level</CardTitle>
             <CardDescription>Preferred seniority levels</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
@@ -123,7 +121,7 @@ export function FilterConfiguration({ filters, onUpdateFilters }: FilterConfigur
 
         <Card>
           <CardHeader>
-            <CardTitle>Keywords</CardTitle>
+            <CardTitle className='text-primary font-semibold'>Keywords</CardTitle>
             <CardDescription>Must-have terms in job descriptions</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -164,7 +162,7 @@ export function FilterConfiguration({ filters, onUpdateFilters }: FilterConfigur
 
         <Card>
           <CardHeader>
-            <CardTitle>Exclude Keywords</CardTitle>
+            <CardTitle className='text-primary font-semibold'>Exclude Keywords</CardTitle>
             <CardDescription>Terms to filter out</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -205,7 +203,7 @@ export function FilterConfiguration({ filters, onUpdateFilters }: FilterConfigur
 
         <Card>
           <CardHeader>
-            <CardTitle>Locations</CardTitle>
+            <CardTitle className='text-primary font-semibold'>Locations</CardTitle>
             <CardDescription>Preferred work locations</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -246,7 +244,7 @@ export function FilterConfiguration({ filters, onUpdateFilters }: FilterConfigur
 
         <Card>
           <CardHeader>
-            <CardTitle>Job Type</CardTitle>
+            <CardTitle className='text-primary font-semibold'>Job Type</CardTitle>
             <CardDescription>Employment types you're interested in</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">

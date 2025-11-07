@@ -64,8 +64,8 @@ export function CVUpload({ onExtractFilters }: CVUploadProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h2>CV Analysis</h2>
-        <p className="text-primary">
+        <h2 className='text-primary text-2xl font-bold'>CV Analysis</h2>
+        <p className="italic">
           Upload your CV to automatically extract filter criteria
         </p>
       </div>
@@ -73,7 +73,7 @@ export function CVUpload({ onExtractFilters }: CVUploadProps) {
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>Upload CV</CardTitle>
+            <CardTitle className='text-primary font-semibold'>Upload CV</CardTitle>
             <CardDescription>
               Upload your CV or paste its content below
             </CardDescription>
@@ -106,7 +106,7 @@ export function CVUpload({ onExtractFilters }: CVUploadProps) {
                 <span className="w-full border-t" />
               </div>
               <div className="relative flex justify-center">
-                <span className="bg-background px-2 text-primary">
+                <span className="bg-card-background px-2 text-primary">
                   or paste text
                 </span>
               </div>
@@ -141,7 +141,7 @@ export function CVUpload({ onExtractFilters }: CVUploadProps) {
 
         <Card>
           <CardHeader>
-            <CardTitle>Extracted Data</CardTitle>
+            <CardTitle className='text-primary font-semibold'>Extracted Data</CardTitle>
             <CardDescription>
               AI-powered analysis of your CV
             </CardDescription>

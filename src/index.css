@@ -15,50 +15,103 @@ code {
 
 @layer base {
   :root {
-  --background: oklch(100% 0.00011 271.152);
-  --foreground: oklch(0.145 0 0);
-  --border: #e8e8e8;
+    --background: #ffffff;
+    --foreground: oklch(0.145 0 0);
+    --border: #dcdcdc;
+    
+    --destructive: #d4183d;
+    --destructive-foreground: #00ff00;
 
-  --primary: #000000;
-  --secondary: #717182;
-  --ternary: #ececf0;
-  --link: #0000ff;
+    --primary: #000000;
+    --secondary: #878787;
+    --ternary: #ececf0;
+    --link: #0000ff;
 
-  --button-background: #000000;
-  --button-border: #000000;
-  --button-hover: #323232;
-  --button-text: #ffffff;
+    --button-background: #000000;
+    --button-border: #000000;
+    --button-hover: #323232;
+    --button-text: #ffffff;
 
-  --button-secondary-background: #e9ebef;
-  --button-secondary-border: rgba(0,0,0,0.1);
-  --button-secondary-hover: oklch(89% 0 0);
-  --button-secondary-text: #030213;
+    --button-secondary-background: #ffffff;
+    --button-secondary-border: rgba(0,0,0,0.1);
+    --button-secondary-hover: #f0f0f0;
+    --button-secondary-text: #030213;
 
-  --checkbox-background: #ffffff;
-  --checkbox-foreground: #ffffff;
-  --checkbox-border: rgba(0,0,0,0.2);
-  --checkbox-checkmark: #030213;
+    --checkbox-background: #000000;
+    --checkbox-foreground: #ffffff;
+    --checkbox-border: rgba(0,0,0,0.2);
+    --checkbox-checkmark: #030213;
 
-  --toggle-background: #cbced4;
-  --toggle-foreground: #ffffff;
+    --toggle-background: #000000;
+    --toggle-foreground: #ffffff;
 
-  --tabs-background: #ececf0;
-  --tabs-foreground: #ffffff;
-  --tabs-text: #000000;
+    --tabs-background: #ececf0;
+    --tabs-foreground: #ffffff;
+    --tabs-text: #000000;
 
-  --card-background: #ffffff;
-  --card-foreground: oklch(0.145 0 0);
-  --card-border: rgba(0,0,0,0.1);
-  --card-text: oklch(0.145 0 0);
-  --card-bar: #5865f2;
-  --card-bar-background: #e8e8e8;
-  --card-badge: #e8e8e8;
-  --card-badge-highlight: #5865f2;
+    --card-background: #ffffff;
+    --card-foreground: oklch(0.145 0 0);
+    --card-border: rgba(0,0,0,0.1);
+    --card-text: oklch(0.145 0 0);
+    --card-bar: #5865f2;
+    --card-bar-background: #e8e8e8;
+    --card-badge: #e8e8e8;
+    --card-badge-highlight: #5865f2;
 
-  --input-background: #f3f3f5;
-  --input-text: oklch(0.145 0 0);
-  --input-border: rgba(0,0,0,0.1);
+    --input-background: #f3f3f5;
+    --input-text: oklch(0.145 0 0);
+    --input-border: rgba(0,0,0,0.1);
   }
+
+  .theme-black {
+    --background: #1e1e1e;
+    --foreground: #d4d4d4;
+    --border: #3e3e42;
+    
+    --destructive: #d4183d;
+    --destructive-foreground: #00ff00;
+
+    --primary: #ffffff;
+    --secondary: #5865f2;
+    --ternary: #3e3e3e;
+    --link: #5865f2;
+
+    --button-background: #5865f2;
+    --button-border: #5865f2;
+    --button-hover: #4752c4;
+    --button-text: #ffffff;
+
+    --button-secondary-background: #252526;
+    --button-secondary-border: #3e3e42;
+    --button-secondary-hover: #2f3136;
+    --button-secondary-text: #d4d4d4;
+
+    --checkbox-background: #5865f2;
+    --checkbox-foreground: #ffffff;
+    --checkbox-border: #3e3e42;
+    --checkbox-checkmark: #ffffff;
+
+    --toggle-background: #5865f2;
+    --toggle-foreground: #ffffff;
+
+    --tabs-background: #2f3136;
+    --tabs-foreground: #252526;
+    --tabs-text: #d4d4d4;
+
+    --card-background: #252526;
+    --card-foreground: #d4d4d4;
+    --card-border: #3e3e42;
+    --card-text: #d4d4d4;
+    --card-bar: #5865f2;
+    --card-bar-background: #2f3136;
+    --card-badge: #2f3136;
+    --card-badge-highlight: #5865f2;
+
+    --input-background: #2f3136;
+    --input-text: #d4d4d4;
+    --input-border: #3e3e42;
+  }
+
 
   * { @apply border-border; border-color: var(--border); }
   body { @apply bg-background text-foreground; }

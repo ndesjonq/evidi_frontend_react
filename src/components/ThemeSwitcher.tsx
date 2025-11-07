@@ -12,8 +12,8 @@ interface ThemeSwitcherProps {
 const themes = [
   { value: 'default' as ThemeColor, label: 'Default', description: 'Light & Dark' },
   { value: 'black' as ThemeColor, label: 'Dark', description: 'Gray dark theme' },
-  { value: 'blue' as ThemeColor, label: 'Deep Blue', description: 'Professional blue' },
-  { value: 'green' as ThemeColor, label: 'Green', description: 'Nature green' },
+  // { value: 'blue' as ThemeColor, label: 'Deep Blue', description: 'Professional blue' },
+  // { value: 'green' as ThemeColor, label: 'Green', description: 'Nature green' },
 ];
 
 export function ThemeSwitcher({ currentTheme, onThemeChange }: ThemeSwitcherProps) {

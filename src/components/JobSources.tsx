@@ -63,8 +63,8 @@ export function JobSources({ sources, onAddSource, onToggleSource, onDeleteSourc
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2>Job Sources</h2>
-          <p className="text-primary">
+          <h2 className='text-primary text-2xl font-bold'>Job Sources</h2>
+          <p className="italic">
             Manage where job offers are collected from
           </p>
         </div>
@@ -142,7 +142,7 @@ export function JobSources({ sources, onAddSource, onToggleSource, onDeleteSourc
                       {source.name}
                       <Badge variant="outline">{source.type}</Badge>
                     </CardTitle>
-                    <CardDescription className="mt-1">{source.url}</CardDescription>
+                    <CardDescription className="mt-1 text-secondary">{source.url}</CardDescription>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">

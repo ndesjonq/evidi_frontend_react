@@ -56,8 +56,8 @@ export function JobList({ jobs, onSelectJob }: JobListProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h2>Job Offers</h2>
-        <p className="text-primary">
+        <h2 className='text-primary text-2xl font-bold'>Job Offers</h2>
+        <p className='italic'>
           Browse and filter collected job opportunities
         </p>
       </div>
@@ -106,7 +106,7 @@ export function JobList({ jobs, onSelectJob }: JobListProps) {
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1">
                         <CardTitle className="flex items-center gap-2">
-                          {job.title}
+                          <p className='text-primary font-medium'>{job.title}</p>
                           {job.isMatch && (
                             <Badge variant="default" className="gap-1">
                               <TrendingUp className="h-3 w-3" />
@@ -150,7 +150,7 @@ export function JobList({ jobs, onSelectJob }: JobListProps) {
                       </div>
                       {job.aiSummary && (
                         <div className="p-3 bg-tabs-background rounded-lg">
-                          <p className="text-primary">{job.aiSummary}</p>
+                          <p>{job.aiSummary}</p>
                         </div>
                       )}
                       <div className="flex items-center justify-between pt-2">

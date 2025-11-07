@@ -97,8 +97,8 @@ export function Settings() {
   return (
     <div className="space-y-6">
       <div>
-        <h1>Settings</h1>
-        <p className="text-primary">
+        <h2 className='text-primary text-2xl font-bold'>Settings</h2>
+        <p className="italic">
           Manage your account settings and preferences
         </p>
       </div>
@@ -108,7 +108,7 @@ export function Settings() {
         <CardHeader>
           <div className="flex items-center gap-2">
             <User className="h-5 w-5 text-primary" />
-            <CardTitle>Profile Information</CardTitle>
+            <CardTitle className='text-primary font-semibold'>Profile Information</CardTitle>
           </div>
           <CardDescription>
             Update your account profile information
@@ -117,7 +117,7 @@ export function Settings() {
         <CardContent>
           <form onSubmit={handleSaveProfile} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
+              <Label className="text-primary" htmlFor="username">Username</Label>
               <Input
                 id="username"
                 value={username}
@@ -126,7 +126,7 @@ export function Settings() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email">Email Address</Label>
+              <Label className="text-primary" htmlFor="email">Email Address</Label>
               <Input
                 id="email"
                 type="email"
@@ -147,7 +147,7 @@ export function Settings() {
         <CardHeader>
           <div className="flex items-center gap-2">
             <Lock className="h-5 w-5 text-primary" />
-            <CardTitle>Change Password</CardTitle>
+            <CardTitle className='text-primary font-semibold'>Change Password</CardTitle>
           </div>
           <CardDescription>
             Update your password to keep your account secure
@@ -156,7 +156,7 @@ export function Settings() {
         <CardContent>
           <form onSubmit={handleChangePassword} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="current-password">Current Password</Label>
+              <Label className="text-primary" htmlFor="current-password">Current Password</Label>
               <Input
                 id="current-password"
                 type="password"
@@ -166,7 +166,7 @@ export function Settings() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="new-password">New Password</Label>
+              <Label className="text-primary" htmlFor="new-password">New Password</Label>
               <Input
                 id="new-password"
                 type="password"
@@ -176,7 +176,7 @@ export function Settings() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="confirm-password">Confirm New Password</Label>
+              <Label className="text-primary" htmlFor="confirm-password">Confirm New Password</Label>
               <Input
                 id="confirm-password"
                 type="password"
@@ -197,7 +197,7 @@ export function Settings() {
         <CardHeader>
           <div className="flex items-center gap-2">
             <Bell className="h-5 w-5 text-primary" />
-            <CardTitle>Notifications</CardTitle>
+            <CardTitle className='text-primary font-semibold'>Notifications</CardTitle>
           </div>
           <CardDescription>
             Configure how you receive notifications
@@ -206,7 +206,7 @@ export function Settings() {
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="email-notifications">Email Notifications</Label>
+              <Label className="text-primary" htmlFor="email-notifications">Email Notifications</Label>
               <p className="text-sm text-primary">
                 Receive email notifications for new job matches
               </p>
@@ -220,7 +220,7 @@ export function Settings() {
           <Separator />
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="push-notifications">Push Notifications</Label>
+              <Label className="text-primary" htmlFor="push-notifications">Push Notifications</Label>
               <p className="text-sm text-primary">
                 Receive push notifications for urgent updates
               </p>
@@ -234,7 +234,7 @@ export function Settings() {
           <Separator />
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label htmlFor="weekly-digest">Weekly Digest</Label>
+              <Label className="text-primary" htmlFor="weekly-digest">Weekly Digest</Label>
               <p className="text-sm text-primary">
                 Get a weekly summary of your job search activity
               </p>
@@ -256,7 +256,7 @@ export function Settings() {
         <CardHeader>
           <div className="flex items-center gap-2">
             <Globe className="h-5 w-5 text-primary" />
-            <CardTitle>Preferences</CardTitle>
+            <CardTitle className='text-primary font-semibold'>Preferences</CardTitle>
           </div>
           <CardDescription>
             Customize your application experience
@@ -264,7 +264,7 @@ export function Settings() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="language">Language</Label>
+            <Label className="text-primary" htmlFor="language">Language</Label>
             <Select value={language} onValueChange={setLanguage}>
               <SelectTrigger id="language">
                 <SelectValue placeholder="Select language" />
@@ -279,7 +279,7 @@ export function Settings() {
             </Select>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="timezone">Timezone</Label>
+            <Label className="text-primary" htmlFor="timezone">Timezone</Label>
             <Select value={timezone} onValueChange={setTimezone}>
               <SelectTrigger id="timezone">
                 <SelectValue placeholder="Select timezone" />
@@ -301,13 +301,13 @@ export function Settings() {
       </Card>
 
       {/* Danger Zone */}
-      <Card className="border-destructive/50">
+      <Card className="border-destructive">
         <CardHeader>
           <div className="flex items-center gap-2">
             <Trash2 className="h-5 w-5 text-destructive" />
-            <CardTitle className="text-destructive">Danger Zone</CardTitle>
+            <CardTitle className="text-destructive font-semibold">Danger Zone</CardTitle>
           </div>
-          <CardDescription>
+          <CardDescription className="">
             Irreversible and destructive actions
           </CardDescription>
         </CardHeader>
@@ -326,14 +326,6 @@ export function Settings() {
           </Button>
         </CardContent>
       </Card>
-
-      {/* Demo Notice */}
-      <Alert>
-        <CheckCircle2 className="h-4 w-4" />
-        <AlertDescription>
-          <strong>Demo Mode:</strong> All settings changes are simulated and won't persist.
-        </AlertDescription>
-      </Alert>
     </div>
   );
 }

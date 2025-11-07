@@ -38,16 +38,6 @@ export default function App() {
   const [selectedJob, setSelectedJob] = useState<JobOffer | null>(null);
   const [isJobDetailOpen, setIsJobDetailOpen] = useState(false);
 
-  // // Apply theme to document
-  // useEffect(() => {
-  //   const root = document.documentElement;
-  //   root.classList.remove('theme-black', 'theme-blue', 'theme-green');
-    
-  //   if (currentTheme !== 'default') {
-  //     root.classList.add(`theme-${currentTheme}`);
-  //   }
-  // }, [currentTheme]);
-
   const handleLogin = (email: string, password: string) => {
     // In a real app, this would validate credentials
     setIsAuthenticated(true);
@@ -144,8 +134,6 @@ export default function App() {
             </div>
             <div className="flex items-center gap-2">
               <ThemeSwitcher 
-                // currentTheme={currentTheme}
-                // onThemeChange={setCurrentTheme}
                 currentTheme={theme as ThemeColor}
                 onThemeChange={handleThemeChange}
               />
