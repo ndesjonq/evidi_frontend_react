@@ -7,7 +7,7 @@ This repository contains the frontend implementation of EVIDI, built as part of 
 You can access the live deployment here:
 🔗 [https://test-vercel-pi-five.vercel.app](https://test-vercel-pi-five.vercel.app)
 
-🌗 UI Themes
+# 🌗 UI Themes
 
 The application supports:
 
@@ -17,7 +17,8 @@ The application supports:
 
 Theme can be switched dynamically in the UI.
 
-⚙️ Installation & Setup
+# ⚙️ Installation & Setup
+```sh
 # Clone the repository
 git clone https://github.com/ndesjonq/evidi_frontend_react.git
 cd evidi-frontend
@@ -27,6 +28,7 @@ npm install
 
 # Run development server
 npm start
+```
 
 
 Open in browser:
