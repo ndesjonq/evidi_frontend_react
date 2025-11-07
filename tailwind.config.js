@@ -1,22 +1,3 @@
-// module.exports = {
-//   purge: [],
-//   darkMode: false, // or 'media' or 'class'
-//   theme: {
-//     extend: {},
-//   },
-//   variants: {
-//     extend: {},
-//   },
-//   plugins: [],
-// }
-
-// /** @type {import('tailwindcss').Config} */
-// module.exports = {
-//   content: ["./src/**/*.{js,jsx,ts,tsx}"],
-//   theme: { extend: {} },
-//   plugins: [],
-// };
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
@@ -48,22 +29,3 @@ module.exports = {
   },
   plugins: [],
 };
-
-
-// /** @type {import('tailwindcss').Config} */
-// module.exports = {
-//   content: ["./src/**/*.{js,jsx,ts,tsx}"],
-//   theme: {
-//     extend: {
-//       colors: {
-//         background: "hsl(var(--background))",
-//         foreground: "hsl(var(--foreground))",
-//         border: "hsl(var(--border))",
-//         muted: "hsl(var(--muted))",
-//         "muted-foreground": "hsl(var(--muted-foreground))",
-//       },
-//     },
-//   },
-//   darkMode: ["class"],
-//   plugins: [],
-// };
