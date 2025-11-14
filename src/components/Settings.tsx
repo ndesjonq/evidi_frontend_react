@@ -10,7 +10,7 @@ import { Alert, AlertDescription } from './ui/alert';
 import { User, Mail, Lock, Bell, Globe, Trash2, CheckCircle2 } from 'lucide-react';
 import { toast } from 'sonner';
 
-export function Settings() {
+export function SettingsPage() {
   const [username, setUsername] = useState('John Doe');
   const [email, setEmail] = useState('john.doe@example.com');
   const [currentPassword, setCurrentPassword] = useState('');

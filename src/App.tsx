@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+
+// Tabs components
 import { Dashboard } from './components/Dashboard';
 import { JobSources } from './components/JobSources';
 import { FilterConfiguration } from './components/FilterConfiguration';
@@ -7,23 +9,31 @@ import { JobList } from './components/JobList';
 import { JobDetail } from './components/JobDetail';
 import { Login } from './components/Login';
 import { Register } from './components/Register';
-import { Settings as SettingsPage } from './components/Settings';
+import { SettingsPage } from './components/Settings';
 import { ThemeSwitcher, ThemeColor } from './components/ThemeSwitcher';
 import { useTheme } from "./components/UseTheme";
+
+// UI components
 import { Button } from './components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './components/ui/tabs';
 import { Toaster } from './components/ui/sonner';
+import { Briefcase, Settings, FileText, Database, List, LogOut } from 'lucide-react';
+
+// Mock data and types
 import { mockJobOffers, mockJobSources } from './lib/mockData';
 import { FilterCriteria, JobOffer, JobSource } from './types';
-import { Briefcase, Settings, FileText, Database, List, LogOut } from 'lucide-react';
-import React from "react";
 
+// Main App component
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const { theme, setTheme } = useTheme("default"); // or read from user setting
   const handleThemeChange = (t: ThemeColor) => setTheme(t);
+
   const [activeTab, setActiveTab] = useState('dashboard');
+  // reset page scroll to top whenever the active tab changes
+  useEffect(() => {window.scrollTo({ top: 0, left: 0, behavior: 'auto' });}, [activeTab]);
+
   const [jobs, setJobs] = useState<JobOffer[]>(mockJobOffers);
   const [sources, setSources] = useState<JobSource[]>(mockJobSources);
   const [filters, setFilters] = useState<FilterCriteria>({
@@ -31,7 +41,7 @@ export default function App() {
     experience: ['Mid-level', 'Senior'],
     keywords: ['remote'],
     location: ['Remote', 'San Francisco'],
-    jobType: ['Full-time', 'Contract'],
+    jobType: ['Internship', 'Full-time', 'Contract'],
     excludeKeywords: [],
   });
   const [selectedJob, setSelectedJob] = useState<JobOffer | null>(null);

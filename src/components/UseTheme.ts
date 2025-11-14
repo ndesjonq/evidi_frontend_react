@@ -19,11 +19,11 @@ export function useTheme(initial: ThemeColor = "default") {
     root.classList.add(`theme-${theme}`);
 
     // (optional) force dark class for the black theme to leverage dark styles
-    if (theme === "black") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
+    // if (theme === "black") {
+    //   root.classList.add("dark");
+    // } else {
+    //   root.classList.remove("dark");
+    // }
 
     localStorage.setItem(THEME_KEY, theme);
   }, [theme]);

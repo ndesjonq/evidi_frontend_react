@@ -6,7 +6,7 @@ import { Label } from './ui/label';
 import { Briefcase } from 'lucide-react';
 
 interface LoginProps {
-  onLogin: (email: string, password: string) => void;
+  onLogin: (email: string, password: string) => void;   // you can change this later to (user: any)
   onSwitchToRegister: () => void;
 }
 
@@ -14,16 +14,41 @@ export function Login({ onLogin, onSwitchToRegister }: LoginProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // Simulate login delay
-    setTimeout(() => {
-      onLogin(email, password);
+    setError(null);
+
+    try {
+      const res = await fetch('http://localhost:8000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // if you later use cookies/JWT in HttpOnly cookie, add: credentials: 'include',
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error('Login failed');
+      }
+
+      const user = await res.json(); // { id, email }
+
+      // Notify parent that login succeeded
+      onLogin(user.email, password); // or onLogin(user) if you change the prop type
+
+      // You could also clear the form here
+      // setEmail('');
+      // setPassword('');
+    } catch (err: any) {
+      setError('Invalid email or password');
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -43,7 +68,7 @@ export function Login({ onLogin, onSwitchToRegister }: LoginProps) {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email" className='text-primary'>Email</Label>
+              <Label htmlFor="email" className="text-primary">Email</Label>
               <Input
                 id="email"
                 type="email"
@@ -64,6 +89,13 @@ export function Login({ onLogin, onSwitchToRegister }: LoginProps) {
                 required
               />
             </div>
+
+            {error && (
+              <p className="text-sm text-red-500">
+                {error}
+              </p>
+            )}
+
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? 'Signing in...' : 'Sign In'}
             </Button>
