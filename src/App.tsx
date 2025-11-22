@@ -35,28 +35,36 @@ export default function App() {
   useEffect(() => {window.scrollTo({ top: 0, left: 0, behavior: 'auto' });}, [activeTab]);
 
   const [jobs, setJobs] = useState<JobOffer[]>([]);
+  const [sources, setSources] = useState<JobSource[]>([]);
+
+  // Import job offers and sources from backend API when authenticated
   useEffect(() => {
     if (!isAuthenticated) return;
 
-    const fetchJobs = async () => {
+    const fetchData = async () => {
       try {
-        const res = await fetch('https://testfastapi-flax.vercel.app/api/jobs');
-        if (!res.ok) {
-          throw new Error('Failed to fetch jobs');
-        }
+        // 1) Fetch jobs
+        const jobsRes = await fetch('https://testfastapi-flax.vercel.app/api/job-offers');
+        if (!jobsRes.ok) throw new Error('Failed to fetch jobs');
+        const jobsData: JobOffer[] = await jobsRes.json();
+        setJobs(jobsData);
 
-        const data: JobOffer[] = await res.json();
-        setJobs(data);
+        // 2) Fetch job sources
+        const sourcesRes = await fetch('https://testfastapi-flax.vercel.app/api/job-sources');
+        if (!sourcesRes.ok) throw new Error('Failed to fetch job sources');
+        const sourcesData: JobSource[] = await sourcesRes.json();
+        setSources(sourcesData);
       } catch (err) {
-        console.error('Error fetching jobs:', err);
-        // Optional: fallback to mock data so UI still works
+        console.error('Error fetching data:', err);
+        // Optional fallbacks:
         // setJobs(mockJobOffers);
+        // setSources(mockJobSources);
       }
     };
 
-    fetchJobs();
+    fetchData();
   }, [isAuthenticated]);
-  const [sources, setSources] = useState<JobSource[]>(mockJobSources);
+
   const [filters, setFilters] = useState<FilterCriteria>({
     stack: ['React', 'TypeScript', 'Node.js'],
     experience: ['Mid-level', 'Senior'],
