@@ -22,7 +22,7 @@ export function Login({ onLogin, onSwitchToRegister }: LoginProps) {
     setError(null);
 
     try {
-      const res = await fetch('https://testfastapi-flax.vercel.app/login', {
+      const res = await fetch('https://testfastapi-flax.vercel.app/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
