@@ -34,7 +34,28 @@ export default function App() {
   // reset page scroll to top whenever the active tab changes
   useEffect(() => {window.scrollTo({ top: 0, left: 0, behavior: 'auto' });}, [activeTab]);
 
-  const [jobs, setJobs] = useState<JobOffer[]>(mockJobOffers);
+  const [jobs, setJobs] = useState<JobOffer[]>([]);
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    const fetchJobs = async () => {
+      try {
+        const res = await fetch('https://testfastapi-flax.vercel.app/api/jobs');
+        if (!res.ok) {
+          throw new Error('Failed to fetch jobs');
+        }
+
+        const data: JobOffer[] = await res.json();
+        setJobs(data);
+      } catch (err) {
+        console.error('Error fetching jobs:', err);
+        // Optional: fallback to mock data so UI still works
+        // setJobs(mockJobOffers);
+      }
+    };
+
+    fetchJobs();
+  }, [isAuthenticated]);
   const [sources, setSources] = useState<JobSource[]>(mockJobSources);
   const [filters, setFilters] = useState<FilterCriteria>({
     stack: ['React', 'TypeScript', 'Node.js'],
