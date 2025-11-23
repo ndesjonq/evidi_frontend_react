@@ -28,7 +28,10 @@ export function Login({ onLogin, onSwitchToRegister }: LoginProps) {
           'Content-Type': 'application/json',
         },
         // if you later use cookies/JWT in HttpOnly cookie, add: credentials: 'include',
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({
+          email: email,
+          pwd: password,
+        }),
       });
 
       if (!res.ok) {
