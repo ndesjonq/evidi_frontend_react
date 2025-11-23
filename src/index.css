@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scroll-bar);
+  border-radius: 999px;
+}
+html {
+  scrollbar-gutter: stable;
+}
+
 /* Optional: smoother text, reset bits */
 * { box-sizing: border-box; }
 html, body, #root { height: 100%; }
@@ -14,6 +29,8 @@ code {
 }
 
 @layer base {
+
+
   :root {
     --background: #ffffff;
     --foreground: oklch(0.145 0 0);
@@ -26,6 +43,7 @@ code {
     --secondary: #878787;
     --ternary: #ececf0;
     --link: #0000ff;
+    --scroll-bar: #8b8b8bcd;
 
     --button-background: #000000;
     --button-border: #000000;
@@ -76,6 +94,7 @@ code {
     --secondary: #5865f2;
     --ternary: #3e3e3e;
     --link: #5865f2;
+    --scroll-bar: #3e3e42;
 
     --button-background: #5865f2;
     --button-border: #5865f2;
@@ -113,7 +132,6 @@ code {
     --input-text: #d4d4d4;
     --input-border: #3e3e42;
   }
-
 
   * { @apply border-border; border-color: var(--border); }
   body { @apply bg-background text-foreground; }

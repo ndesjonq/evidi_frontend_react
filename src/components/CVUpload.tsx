@@ -114,7 +114,7 @@ export function CVUpload({ onExtractFilters }: CVUploadProps) {
 
             <Textarea
               placeholder="Paste your CV content here..."
-              className="min-h-[200px]"
+              className="min-h-[115px]"
               value={cvText}
               onChange={(e) => setCvText(e.target.value)}
             />
@@ -148,7 +148,7 @@ export function CVUpload({ onExtractFilters }: CVUploadProps) {
           </CardHeader>
           <CardContent>
             {!extractedData ? (
-              <div className="flex flex-col items-center justify-center h-[400px] text-center">
+              <div className="flex flex-col items-center justify-center h-[380px] text-center">
                 <Sparkles className="h-12 w-12 text-primary mb-4" />
                 <p className="text-primary">
                   Upload or paste your CV and click "Extract Filters" to see
