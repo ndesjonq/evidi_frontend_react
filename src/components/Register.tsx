@@ -7,7 +7,7 @@ import { Briefcase } from 'lucide-react';
 
 interface RegisterProps {
   onRegister: (name: string, email: string, password: string) => void;
-  onSwitchToLogin: () => void;
+  onSwitchToLogin: (status?: string) => void;
 }
 
 export function Register({ onRegister, onSwitchToLogin }: RegisterProps) {
@@ -34,12 +34,37 @@ export function Register({ onRegister, onSwitchToLogin }: RegisterProps) {
     }
 
     setIsLoading(true);
-    
-    // Simulate registration delay
-    setTimeout(() => {
-      onRegister(name, email, password);
+    try {
+      const resp = await fetch('https://testfastapi-flax.vercel.app/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          full_name: name,
+          email,
+          pwd: password,
+        }),
+      });
+
+      if (!resp.ok) {
+        const data = await resp.json().catch(() => ({}));
+        setError(data.detail || 'Registration failed');
+        return;
+      }
+
+      // Optionally reset form
+      setName('');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
+      
+      onSwitchToLogin("account_created");
+    } catch (err) {
+      setError('Unable to contact server');
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -114,7 +139,7 @@ export function Register({ onRegister, onSwitchToLogin }: RegisterProps) {
               Already have an account?{' '}
               <button
                 type="button"
-                onClick={onSwitchToLogin}
+                onClick={() => onSwitchToLogin()}
                 className="text-link hover:underline"
               >
                 Sign in
@@ -125,4 +150,5 @@ export function Register({ onRegister, onSwitchToLogin }: RegisterProps) {
       </Card>
     </div>
   );
+
 }

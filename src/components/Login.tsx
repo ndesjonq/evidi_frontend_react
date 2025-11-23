@@ -8,9 +8,11 @@ import { Briefcase } from 'lucide-react';
 interface LoginProps {
   onLogin: (email: string, password: string) => void;   // you can change this later to (user: any)
   onSwitchToRegister: () => void;
+  successMessage?: string | null;
 }
 
-export function Login({ onLogin, onSwitchToRegister }: LoginProps) {
+
+export function Login({ onLogin, onSwitchToRegister, successMessage }: LoginProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -92,6 +94,12 @@ export function Login({ onLogin, onSwitchToRegister }: LoginProps) {
                 required
               />
             </div>
+
+            {successMessage === "account_created" && (
+              <p className="text-sm text-green-600 mb-2 text-center">
+                Account successfully created! You can now log in.
+              </p>
+            )}
 
             {error && (
               <p className="text-sm text-red-500">

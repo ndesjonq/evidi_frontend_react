@@ -20,13 +20,13 @@ import { Toaster } from './components/ui/sonner';
 import { Briefcase, Settings, FileText, Database, List, LogOut } from 'lucide-react';
 
 // Mock data and types
-import { mockJobOffers, mockJobSources } from './lib/mockData';
 import { FilterCriteria, JobOffer, JobSource } from './types';
 
 // Main App component
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+  const [registerSuccess, setRegisterSuccess] = useState(false);
   const { theme, setTheme } = useTheme("default"); // or read from user setting
   const handleThemeChange = (t: ThemeColor) => setTheme(t);
 
@@ -145,14 +145,23 @@ export default function App() {
       return (
         <Register
           onRegister={handleRegister}
-          onSwitchToLogin={() => setShowRegister(false)}
+          onSwitchToLogin={(status) => {
+            if (status === 'account_created') {
+              setRegisterSuccess(true);
+            }
+            setShowRegister(false);
+          }}
         />
       );
     }
     return (
       <Login
         onLogin={handleLogin}
-        onSwitchToRegister={() => setShowRegister(true)}
+        onSwitchToRegister={() => {
+          setRegisterSuccess(false); // reset message if user goes back to register
+          setShowRegister(true);
+        }}
+        successMessage={registerSuccess ? 'account_created' : null}
       />
     );
   }
