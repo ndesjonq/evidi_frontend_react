@@ -19,52 +19,25 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from './components/ui/tabs';
 import { Toaster } from './components/ui/sonner';
 import { Briefcase, Settings, FileText, Database, List, LogOut } from 'lucide-react';
 
-// Mock data and types
+// Types
 import { FilterCriteria, JobOffer, JobSource } from './types';
 
-// Main App component
+const API_BASE = 'https://testfastapi-flax.vercel.app';
+
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [registerSuccess, setRegisterSuccess] = useState(false);
-  const { theme, setTheme } = useTheme("default"); // or read from user setting
+  const { theme, setTheme } = useTheme("default");
   const handleThemeChange = (t: ThemeColor) => setTheme(t);
 
   const [activeTab, setActiveTab] = useState('dashboard');
-  // reset page scroll to top whenever the active tab changes
-  useEffect(() => {window.scrollTo({ top: 0, left: 0, behavior: 'auto' });}, [activeTab]);
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [activeTab]);
 
   const [jobs, setJobs] = useState<JobOffer[]>([]);
   const [sources, setSources] = useState<JobSource[]>([]);
-
-  // Import job offers and sources from backend API when authenticated
-  useEffect(() => {
-    if (!isAuthenticated) return;
-
-    const fetchData = async () => {
-      try {
-        // 1) Fetch jobs
-        const jobsRes = await fetch('https://testfastapi-flax.vercel.app/api/job-offers');
-        if (!jobsRes.ok) throw new Error('Failed to fetch jobs');
-        const jobsData: JobOffer[] = await jobsRes.json();
-        setJobs(jobsData);
-
-        // 2) Fetch job sources
-        const sourcesRes = await fetch('https://testfastapi-flax.vercel.app/api/job-sources');
-        if (!sourcesRes.ok) throw new Error('Failed to fetch job sources');
-        const sourcesData: JobSource[] = await sourcesRes.json();
-        setSources(sourcesData);
-      } catch (err) {
-        console.error('Error fetching data:', err);
-        // Optional fallbacks:
-        // setJobs(mockJobOffers);
-        // setSources(mockJobSources);
-      }
-    };
-
-    fetchData();
-  }, [isAuthenticated]);
-
   const [filters, setFilters] = useState<FilterCriteria>({
     stack: ['React', 'TypeScript', 'Node.js'],
     experience: ['Mid-level', 'Senior'],
@@ -76,20 +49,68 @@ export default function App() {
   const [selectedJob, setSelectedJob] = useState<JobOffer | null>(null);
   const [isJobDetailOpen, setIsJobDetailOpen] = useState(false);
 
+  // track logged-in user email (id = email in the API)
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+
+  // Import job offers, job sources, and filters from backend API when authenticated
+  useEffect(() => {
+    if (!isAuthenticated || !userEmail) return;
+
+    const fetchData = async () => {
+      try {
+        // 1) Fetch jobs
+        const jobsRes = await fetch(`${API_BASE}/api/job-offers`);
+        if (!jobsRes.ok) throw new Error('Failed to fetch jobs');
+        const jobsData: JobOffer[] = await jobsRes.json();
+        setJobs(jobsData);
+
+        // 2) Fetch job sources
+        const sourcesRes = await fetch(`${API_BASE}/api/job-sources`);
+        if (!sourcesRes.ok) throw new Error('Failed to fetch job sources');
+        const sourcesData: JobSource[] = await sourcesRes.json();
+        setSources(sourcesData);
+
+        // 3) Fetch filters for this user
+        const filtersRes = await fetch(
+          `${API_BASE}/api/users/${encodeURIComponent(userEmail)}/filters`
+        );
+        if (!filtersRes.ok) {
+          // If you don't have a GET endpoint yet, this will fail until you add it.
+          throw new Error('Failed to fetch filters');
+        }
+        const filtersData: { filters: FilterCriteria } = await filtersRes.json();
+        if (filtersData && filtersData.filters) {
+          setFilters(filtersData.filters);
+        }
+      } catch (err) {
+        console.error('Error fetching data:', err);
+        // Optional: keep previous state or set some fallback
+      }
+    };
+
+    fetchData();
+  }, [isAuthenticated, userEmail]);
+
   const handleLogin = (email: string, password: string) => {
     setIsAuthenticated(true);
     setShowRegister(false);
+    setUserEmail(email); // <- used to fetch user-specific filters
   };
 
   const handleRegister = (name: string, email: string, password: string) => {
     setIsAuthenticated(true);
     setShowRegister(false);
+    setUserEmail(email);
   };
 
   const handleLogout = () => {
     setIsAuthenticated(false);
     setShowRegister(false);
     setActiveTab('dashboard');
+    setUserEmail(null);
+    setJobs([]);
+    setSources([]);
+    // optional: reset filters to defaults or leave them
   };
 
   const handleAddSource = (newSource: Omit<JobSource, 'id'>) => {
@@ -158,7 +179,7 @@ export default function App() {
       <Login
         onLogin={handleLogin}
         onSwitchToRegister={() => {
-          setRegisterSuccess(false); // reset message if user goes back to register
+          setRegisterSuccess(false);
           setShowRegister(true);
         }}
         successMessage={registerSuccess ? 'account_created' : null}
@@ -167,21 +188,17 @@ export default function App() {
   }
 
   return (
-    // Lift Tabs to wrap header + main so the tab triggers can live in the header
     <Tabs value={activeTab} onValueChange={setActiveTab}>
       <div className="min-h-screen bg-background">
-        {/* Sticky header with tabs next to the logo */}
         <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur-sm">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
-              {/* left: logo + tabs */}
               <div className="flex items-center gap-6">
                 <div className="flex items-center gap-2">
                   <Briefcase className="h-6 w-6" />
                   <h1 className="text-lg text-xl font-bold">Evidi</h1>
                 </div>
 
-                {/* Tabs placed in the header right after the logo */}
                 <TabsList className="flex items-center space-x-2">
                   <TabsTrigger value="dashboard" className="gap-2">
                     <Briefcase className="h-4 w-4" />
@@ -210,7 +227,6 @@ export default function App() {
                 </TabsList>
               </div>
 
-              {/* right: controls */}
               <div className="flex items-center gap-2">
                 <ThemeSwitcher
                   currentTheme={theme as ThemeColor}
@@ -234,7 +250,6 @@ export default function App() {
         </header>
 
         <main className="container mx-auto px-4 py-8">
-          {/* TabsContent remains in the main content area */}
           <TabsContent value="dashboard">
             <Dashboard
               totalJobs={totalJobs}
