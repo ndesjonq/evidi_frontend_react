@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-// Tabs components
+// Components
 import { Dashboard } from './components/Dashboard';
 import { JobSources } from './components/JobSources';
 import { FilterConfiguration } from './components/FilterConfiguration';
@@ -13,7 +13,7 @@ import { SettingsPage } from './components/Settings';
 import { ThemeSwitcher, ThemeColor } from './components/ThemeSwitcher';
 import { useTheme } from "./components/UseTheme";
 
-// UI components
+// UI
 import { Button } from './components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './components/ui/tabs';
 import { Toaster } from './components/ui/sonner';
@@ -33,102 +33,80 @@ interface UserProfile {
 }
 
 export default function App() {
-  const [resumeRequired, setResumeRequired] = useState(false);
+  // --- Auth & User ---
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [registerSuccess, setRegisterSuccess] = useState(false);
-  const { theme, setTheme } = useTheme("default");
-  const [isFiltersDirty, setIsFiltersDirty] = useState(false);
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [resumeRequired, setResumeRequired] = useState(false);
 
+  // --- Data ---
   const [jobs, setJobs] = useState<JobOffer[]>([]);
   const [sources, setSources] = useState<JobSource[]>([]);
-  const [filters, setFilters] = useState<FilterCriteria>({stack: [],experience: [],keywords: [],location: [],jobType: [],excludeKeywords: []});
+  const [filters, setFilters] = useState<FilterCriteria>({
+    stack: [], experience: [], keywords: [], location: [], jobType: [], excludeKeywords: []
+  });
+
+  // --- UI ---
+  const { theme, setTheme } = useTheme("default");
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [isFiltersDirty, setIsFiltersDirty] = useState(false);
   const [selectedJob, setSelectedJob] = useState<JobOffer | null>(null);
   const [isJobDetailOpen, setIsJobDetailOpen] = useState(false);
-  const [userEmail, setUserEmail] = useState<string | null>(null);
 
+  // ------------------------------------------------------
+  // FETCH USER DATA (jobs, sources, filters, user profile)
+  // ------------------------------------------------------
   useEffect(() => {
     if (!isAuthenticated || !userEmail) return;
 
-    const fetchData = async () => {
+    const loadAll = async () => {
       try {
-        // 1) Fetch jobs
-        const jobsRes = await fetch(`${API_BASE}/api/job-offers`);
-        if (!jobsRes.ok) throw new Error('Failed to fetch jobs');
-        const jobsData: JobOffer[] = await jobsRes.json();
-        setJobs(jobsData);
+        const [jobsRes, sourcesRes, filtersRes, userRes] = await Promise.all([
+          fetch(`${API_BASE}/api/job-offers`),
+          fetch(`${API_BASE}/api/job-sources`),
+          fetch(`${API_BASE}/api/users/${encodeURIComponent(userEmail)}/filters`),
+          fetch(`${API_BASE}/api/users/${encodeURIComponent(userEmail)}`)
+        ]);
 
-        // 2) Fetch job sources
-        const sourcesRes = await fetch(`${API_BASE}/api/job-sources`);
-        if (!sourcesRes.ok) throw new Error('Failed to fetch job sources');
-        const sourcesData: JobSource[] = await sourcesRes.json();
-        setSources(sourcesData);
+        if (jobsRes.ok) setJobs(await jobsRes.json());
+        if (sourcesRes.ok) setSources(await sourcesRes.json());
 
-        // 3) Fetch filters for this user
-        const filtersRes = await fetch(
-          `${API_BASE}/api/users/${encodeURIComponent(userEmail)}/filters`
-        );
-        if (!filtersRes.ok) {
-          // If you don't have a GET endpoint yet, this will fail until you add it.
-          throw new Error('Failed to fetch filters');
+        if (filtersRes.ok) {
+          const f = await filtersRes.json();
+          setFilters(f.filters);
         }
-        const filtersData: { filters: FilterCriteria } = await filtersRes.json();
-        if (filtersData && filtersData.filters) {
-          setFilters(filtersData.filters);
+
+        if (userRes.ok) {
+          const user: UserProfile = await userRes.json();
+          if (!user.resume) {
+            setResumeRequired(true);
+            setActiveTab('cv');
+          }
         }
-      } catch (err) {
-        console.error('Error fetching data:', err);
-        // Optional: keep previous state or set some fallback
+      } catch (e) {
+        console.error("Error loading user data:", e);
       }
     };
 
-    fetchData();
-
-    const fetchUserProfile = async () => {
-      try {
-        const res = await fetch(
-          `${API_BASE}/api/users/${encodeURIComponent(userEmail)}`
-        );
-        if (!res.ok) throw new Error('Failed to fetch user profile');
-
-        const data: UserProfile = await res.json();
-
-        // If resume is null/None, force CV upload
-        if (!data.resume) {
-          setResumeRequired(true);
-          setActiveTab('cv');
-        } else {
-          setResumeRequired(false);
-        }
-      } catch (err) {
-        console.error('Error fetching user profile:', err);
-      }
-    };
-
-    fetchUserProfile();
+    loadAll();
   }, [isAuthenticated, userEmail]);
 
+  // Scroll reset on tab switch
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    window.scrollTo({ top: 0 });
   }, [activeTab]);
-  
-  const handleTabChange = (value: string) => {
-    if (resumeRequired && value !== 'cv' && value !== 'settings') {
-      return;
-    }
-    setActiveTab(value);
-  };
 
-  const handleThemeChange = (t: ThemeColor) => setTheme(t);
-
-  const handleLogin = (email: string, password: string) => {
+  // ------------------------------------------------------
+  // HANDLERS — AUTH
+  // ------------------------------------------------------
+  const handleLogin = (email: string) => {
     setIsAuthenticated(true);
     setShowRegister(false);
-    setUserEmail(email); // <- used to fetch user-specific filters
+    setUserEmail(email);
   };
 
-  const handleRegister = (name: string, email: string, password: string) => {
+  const handleRegister = (_name: string, email: string) => {
     setIsAuthenticated(true);
     setShowRegister(false);
     setUserEmail(email);
@@ -136,68 +114,61 @@ export default function App() {
 
   const handleLogout = () => {
     setIsAuthenticated(false);
-    setShowRegister(false);
-    setActiveTab('dashboard');
     setUserEmail(null);
+    setActiveTab('dashboard');
     setJobs([]);
     setSources([]);
+    setFilters({
+      stack: [], experience: [], keywords: [], location: [], jobType: [], excludeKeywords: []
+    });
+    setResumeRequired(false);
     setRegisterSuccess(false);
-    setResumeRequired(false);
   };
 
+  // ------------------------------------------------------
+  // HANDLERS — RESUME ONBOARDING
+  // ------------------------------------------------------
   const handleSaveResume = async (cvText: string) => {
-  if (!userEmail || !cvText) return;
+    if (!userEmail || !cvText) return;
 
-  try {
-    const res = await fetch(
-      `${API_BASE}/api/users/${encodeURIComponent(userEmail)}/resume`,
-      {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ resume: cvText }),
-      }
-    );
-
-    if (!res.ok) {
-      console.error('Failed to save resume');
-      return;
+    try {
+      const res = await fetch(
+        `${API_BASE}/api/users/${encodeURIComponent(userEmail)}/resume`,
+        { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ resume: cvText }) }
+      );
+      if (res.ok) setResumeRequired(false);
+    } catch (e) {
+      console.error("Error saving resume:", e);
     }
+  };
 
-    // Resume is now stored in DB; unlock the rest of the app
-    setResumeRequired(false);
-  } catch (err) {
-    console.error('Error saving resume:', err);
-  }
-};
-
+  // ------------------------------------------------------
+  // HANDLERS — SOURCES
+  // ------------------------------------------------------
   const handleAddSource = (newSource: Omit<JobSource, 'id'>) => {
-    const source: JobSource = {
-      ...newSource,
-      id: Date.now().toString(),
-      lastSync: undefined,
-    };
-    setSources([...sources, source]);
+    setSources([...sources, { ...newSource, id: Date.now().toString(), lastSync: undefined }]);
   };
 
-  const handleToggleSource = (id: string) => {
-    setSources(sources.map(s =>
-      s.id === id ? { ...s, enabled: !s.enabled } : s
-    ));
-  };
+  const handleToggleSource = (id: string) =>
+    setSources(sources.map(s => s.id === id ? { ...s, enabled: !s.enabled } : s));
 
-  const handleDeleteSource = (id: string) => {
+  const handleDeleteSource = (id: string) =>
     setSources(sources.filter(s => s.id !== id));
-  };
 
-  const handleSyncSource = (id: string) => {
-    setSources(sources.map(s =>
-      s.id === id ? { ...s, lastSync: new Date().toISOString() } : s
-    ));
-  };
+  const handleSyncSource = (id: string) =>
+    setSources(sources.map(s => s.id === id ? { ...s, lastSync: new Date().toISOString() } : s));
 
-  const handleUpdateFilters = (newFilters: FilterCriteria) => {
-    setFilters(newFilters);
+  // ------------------------------------------------------
+  // HANDLERS — FILTERS
+  // ------------------------------------------------------
+  const handleUpdateFilters = (f: FilterCriteria) => {
+    setFilters(f);
     setIsFiltersDirty(true);
+  };
+
+  const handleExtractFilters = (partial: Partial<FilterCriteria>) => {
+    setFilters({ ...filters, ...partial });
+    setActiveTab('filters');
   };
 
   const handleSaveFilters = async () => {
@@ -208,151 +179,129 @@ export default function App() {
         `${API_BASE}/api/users/${encodeURIComponent(userEmail)}/filters`,
         {
           method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ filters }), // send current filters state
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ filters }),
         }
       );
 
-      if (!res.ok) {
-        console.error("Failed to save filters");
-        return;
-      }
-
-      console.log("Filters saved successfully");
-      setIsFiltersDirty(false);
-    } catch (err) {
-      console.error("Error saving filters:", err);
+      if (res.ok) setIsFiltersDirty(false);
+    } catch (e) {
+      console.error("Error saving filters:", e);
     }
   };
 
-
-  const handleExtractFilters = (extractedFilters: Partial<FilterCriteria>) => {
-    setFilters({
-      ...filters,
-      ...extractedFilters,
-    });
-    setActiveTab('filters');
-  };
-
+  // ------------------------------------------------------
+  // HANDLERS — UI
+  // ------------------------------------------------------
   const handleSelectJob = (job: JobOffer) => {
     setSelectedJob(job);
     setIsJobDetailOpen(true);
   };
 
-  const matchedJobs = jobs.filter(j => j.isMatch);
-  const totalJobs = jobs.length;
-  const appliedJobs = 12; // Mock data
-  const responseRate = 35; // Mock data
+  const handleTabChange = (value: string) => {
+    if (resumeRequired && value !== 'cv' && value !== 'settings') return;
+    setActiveTab(value);
+  };
 
-  // Show register or login page if not authenticated
+  const handleThemeChange = (t: ThemeColor) => setTheme(t);
+
+  // ------------------------------------------------------
+  // AUTH SCREENS
+  // ------------------------------------------------------
   if (!isAuthenticated) {
     if (showRegister) {
       return (
         <Register
           onRegister={handleRegister}
           onSwitchToLogin={(status) => {
-            if (status === 'account_created') {
-              setRegisterSuccess(true);
-            }
+            if (status === 'account_created') setRegisterSuccess(true);
             setShowRegister(false);
           }}
         />
       );
     }
+
     return (
       <Login
         onLogin={handleLogin}
-        onSwitchToRegister={() => {
-          setRegisterSuccess(false);
-          setShowRegister(true);
-        }}
+        onSwitchToRegister={() => { setRegisterSuccess(false); setShowRegister(true); }}
         successMessage={registerSuccess ? 'account_created' : null}
       />
     );
   }
 
+  // ------------------------------------------------------
+  // MAIN APP
+  // ------------------------------------------------------
+  const matchedJobs = jobs.filter(j => j.isMatch);
+
   return (
     <Tabs value={activeTab} onValueChange={handleTabChange}>
       <div className="min-h-screen bg-background">
+        {/* HEADER */}
         <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur-sm">
-          <div className="container mx-auto px-4 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-6">
-                <div className="flex items-center gap-2">
-                  <Briefcase className="h-6 w-6" />
-                  <h1 className="text-lg text-xl font-bold">Evidi</h1>
-                </div>
-
-                <TabsList className="flex items-center space-x-2">
-                  <TabsTrigger value="dashboard" className="gap-2" disabled={resumeRequired}>
-                    <Briefcase className="h-4 w-4" />
-                    <span>Dashboard</span>
-                  </TabsTrigger>
-
-                  <TabsTrigger value="jobs" className="gap-2" disabled={resumeRequired}>
-                    <List className="h-4 w-4" />
-                    <span>Jobs</span>
-                  </TabsTrigger>
-
-                  <TabsTrigger value="sources" className="gap-2" disabled={resumeRequired}>
-                    <Database className="h-4 w-4" />
-                    <span>Sources</span>
-                  </TabsTrigger>
-
-                  <TabsTrigger value="filters" className="gap-2" disabled={resumeRequired}>
-                    <Settings className="h-4 w-4" />
-                    <span>Filters</span>
-                  </TabsTrigger>
-                </TabsList>
-              </div>
-
+          <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+            {/* Left */}
+            <div className="flex items-center gap-6">
               <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setActiveTab('cv')}
-                >
-                  <FileText className="h-4 w-4 mr-2" />
-                  My Resume
-                </Button>
-                <ThemeSwitcher
-                  currentTheme={theme as ThemeColor}
-                  onThemeChange={handleThemeChange}
-                />
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setActiveTab('settings')}
-                >
-                  <Settings className="h-4 w-4 mr-2" />
-                  Settings
-                </Button>
-                <Button variant="outline" size="sm" onClick={handleLogout}>
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Logout
-                </Button>
+                <Briefcase className="h-6 w-6" />
+                <h1 className="text-xl font-bold">Evidi</h1>
               </div>
+
+              <TabsList className="flex items-center space-x-2">
+                <TabsTrigger value="dashboard" disabled={resumeRequired} className="gap-2">
+                  <Briefcase className="h-4 w-4" /> Dashboard
+                </TabsTrigger>
+
+                <TabsTrigger value="jobs" disabled={resumeRequired} className="gap-2">
+                  <List className="h-4 w-4" /> Jobs
+                </TabsTrigger>
+
+                <TabsTrigger value="sources" disabled={resumeRequired} className="gap-2">
+                  <Database className="h-4 w-4" /> Sources
+                </TabsTrigger>
+
+                <TabsTrigger value="filters" disabled={resumeRequired} className="gap-2">
+                  <Settings className="h-4 w-4" /> Filters
+                </TabsTrigger>
+              </TabsList>
+            </div>
+
+            {/* Right */}
+            <div className="flex items-center gap-2">
+              <Button variant="outline" size="sm" onClick={() => setActiveTab('cv')}>
+                <FileText className="h-4 w-4 mr-2" /> My Resume
+              </Button>
+
+              <ThemeSwitcher
+                currentTheme={theme as ThemeColor}
+                onThemeChange={handleThemeChange}
+              />
+
+              <Button variant="outline" size="sm" onClick={() => setActiveTab('settings')}>
+                <Settings className="h-4 w-4 mr-2" /> Settings
+              </Button>
+
+              <Button variant="outline" size="sm" onClick={handleLogout}>
+                <LogOut className="h-4 w-4 mr-2" /> Logout
+              </Button>
             </div>
           </div>
         </header>
 
+        {/* CONTENT */}
         <main className="container mx-auto px-4 py-8">
           <TabsContent value="dashboard">
             <Dashboard
-              totalJobs={totalJobs}
+              totalJobs={jobs.length}
               matchedJobs={matchedJobs.length}
-              appliedJobs={appliedJobs}
-              responseRate={responseRate}
+              appliedJobs={12}
+              responseRate={35}
             />
           </TabsContent>
 
           <TabsContent value="jobs">
-            <JobList
-              jobs={jobs}
-              onSelectJob={handleSelectJob}
-            />
+            <JobList jobs={jobs} onSelectJob={handleSelectJob} />
           </TabsContent>
 
           <TabsContent value="sources">
@@ -377,8 +326,8 @@ export default function App() {
           <TabsContent value="cv">
             <CVUpload
               onExtractFilters={handleExtractFilters}
-              onSaveResume={handleSaveResume}      // NEW
-              resumeRequired={resumeRequired}      // NEW (for small banner)
+              onSaveResume={handleSaveResume}
+              resumeRequired={resumeRequired}
             />
           </TabsContent>
 
