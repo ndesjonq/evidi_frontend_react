@@ -176,7 +176,7 @@ export function SettingsPage({ userEmail }: SettingsPageProps) {
                 id="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="Your name"
+                placeholder=""
               />
             </div>
             <div className="space-y-2">
@@ -186,7 +186,7 @@ export function SettingsPage({ userEmail }: SettingsPageProps) {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="your.email@example.com"
+                placeholder=""
                 disabled
               />
             </div>
