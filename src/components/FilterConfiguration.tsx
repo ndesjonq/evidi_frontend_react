@@ -125,7 +125,7 @@ export function FilterConfiguration({ filters, onUpdateFilters }: FilterConfigur
                 <Label htmlFor={level} className="cursor-pointer">
                   {level}
                 </Label>
-              </div>
+              </div>  
             ))}
           </CardContent>
         </Card>
