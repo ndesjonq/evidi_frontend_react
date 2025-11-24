@@ -11,15 +11,9 @@ import { FilterCriteria } from '../types';
 interface FilterConfigurationProps {
   filters: FilterCriteria;
   onUpdateFilters: (filters: FilterCriteria) => void;
-  // 👇 new callback to trigger saving
-  onSaveFilters: () => void;
 }
 
-export function FilterConfiguration({
-  filters,
-  onUpdateFilters,
-  onSaveFilters,
-}: FilterConfigurationProps) {
+export function FilterConfiguration({ filters, onUpdateFilters }: FilterConfigurationProps) {
   const [newStackItem, setNewStackItem] = useState('');
   const [newKeyword, setNewKeyword] = useState('');
   const [newExcludeKeyword, setNewExcludeKeyword] = useState('');
@@ -28,6 +22,7 @@ export function FilterConfiguration({
   const addItem = (field: keyof FilterCriteria, value: string) => {
     const v = value.trim();
     if (!v) return;
+    // avoid duplicate additions (optional)
     if (filters[field].includes(v)) return;
     onUpdateFilters({
       ...filters,
@@ -58,22 +53,16 @@ export function FilterConfiguration({
 
   return (
     <div className="space-y-6">
-      {/* Header row with title + Save button */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-primary text-2xl font-bold">Filter Configuration</h2>
-          <p>Define criteria to automatically filter job offers</p>
-        </div>
-        <Button onClick={onSaveFilters}>
-          Save
-        </Button>
+      <div>
+        <h2 className='text-primary text-2xl font-bold'>Filter Configuration</h2>
+        <p className="">Define criteria to automatically filter job offers</p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
         {/* Technology Stack */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-primary font-semibold">Technology Stack</CardTitle>
+            <CardTitle className='text-primary font-semibold'>Technology Stack</CardTitle>
             <CardDescription>Skills and technologies you're looking for</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -122,7 +111,7 @@ export function FilterConfiguration({
         {/* Experience Level */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-primary font-semibold">Experience Level</CardTitle>
+            <CardTitle className='text-primary font-semibold'>Experience Level</CardTitle>
             <CardDescription>Preferred seniority levels</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
@@ -144,7 +133,7 @@ export function FilterConfiguration({
         {/* Keywords */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-primary font-semibold">Keywords</CardTitle>
+            <CardTitle className='text-primary font-semibold'>Keywords</CardTitle>
             <CardDescription>Must-have terms in job descriptions</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -193,7 +182,7 @@ export function FilterConfiguration({
         {/* Exclude Keywords */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-primary font-semibold">Exclude Keywords</CardTitle>
+            <CardTitle className='text-primary font-semibold'>Exclude Keywords</CardTitle>
             <CardDescription>Terms to filter out</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -242,7 +231,7 @@ export function FilterConfiguration({
         {/* Locations */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-primary font-semibold">Locations</CardTitle>
+            <CardTitle className='text-primary font-semibold'>Locations</CardTitle>
             <CardDescription>Preferred work locations</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -291,7 +280,7 @@ export function FilterConfiguration({
         {/* Job Type */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-primary font-semibold">Job Type</CardTitle>
+            <CardTitle className='text-primary font-semibold'>Job Type</CardTitle>
             <CardDescription>Employment types you're interested in</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
