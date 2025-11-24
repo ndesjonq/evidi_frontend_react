@@ -140,7 +140,37 @@ export default function App() {
 
   const handleUpdateFilters = (newFilters: FilterCriteria) => {
     setFilters(newFilters);
+    setIsFiltersDirty(true);
   };
+
+  const handleSaveFilters = async () => {
+    if (!userEmail) return;
+
+    try {
+      const res = await fetch(
+        `${API_BASE}/api/users/${encodeURIComponent(userEmail)}/filters`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ filters }), // send current filters state
+        }
+      );
+
+      if (!res.ok) {
+        console.error("Failed to save filters");
+        return;
+      }
+
+      console.log("Filters saved successfully");
+      setIsFiltersDirty(false);
+    } catch (err) {
+      console.error("Error saving filters:", err);
+    }
+  };
+
+  const [isFiltersDirty, setIsFiltersDirty] = useState(false);
 
   const handleExtractFilters = (extractedFilters: Partial<FilterCriteria>) => {
     setFilters({
@@ -219,15 +249,18 @@ export default function App() {
                     <Settings className="h-4 w-4" />
                     <span>Filters</span>
                   </TabsTrigger>
-
-                  <TabsTrigger value="cv" className="gap-2">
-                    <FileText className="h-4 w-4" />
-                    <span>CV Analysis</span>
-                  </TabsTrigger>
                 </TabsList>
               </div>
 
               <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setActiveTab('cv')}
+                >
+                  <FileText className="h-4 w-4 mr-2" />
+                  My Resume
+                </Button>
                 <ThemeSwitcher
                   currentTheme={theme as ThemeColor}
                   onThemeChange={handleThemeChange}
@@ -280,6 +313,8 @@ export default function App() {
             <FilterConfiguration
               filters={filters}
               onUpdateFilters={handleUpdateFilters}
+              onSaveFilters={handleSaveFilters}
+              isDirty={isFiltersDirty}
             />
           </TabsContent>
 
@@ -288,7 +323,7 @@ export default function App() {
           </TabsContent>
 
           <TabsContent value="settings">
-            <SettingsPage />
+            <SettingsPage userEmail={userEmail} />
           </TabsContent>
         </main>
 
