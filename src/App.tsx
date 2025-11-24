@@ -24,35 +24,30 @@ import { FilterCriteria, JobOffer, JobSource } from './types';
 
 const API_BASE = 'https://testfastapi-flax.vercel.app';
 
+interface UserProfile {
+  id: string;
+  email: string;
+  full_name: string | null;
+  filters: FilterCriteria;
+  resume: string | null;
+}
+
 export default function App() {
+  const [resumeRequired, setResumeRequired] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [registerSuccess, setRegisterSuccess] = useState(false);
   const { theme, setTheme } = useTheme("default");
-  const handleThemeChange = (t: ThemeColor) => setTheme(t);
-
+  const [isFiltersDirty, setIsFiltersDirty] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-  }, [activeTab]);
 
   const [jobs, setJobs] = useState<JobOffer[]>([]);
   const [sources, setSources] = useState<JobSource[]>([]);
-  const [filters, setFilters] = useState<FilterCriteria>({
-    stack: ['React', 'TypeScript', 'Node.js'],
-    experience: ['Mid-level', 'Senior'],
-    keywords: ['remote'],
-    location: ['Remote', 'San Francisco'],
-    jobType: ['Internship', 'Full-time', 'Contract'],
-    excludeKeywords: [],
-  });
+  const [filters, setFilters] = useState<FilterCriteria>({stack: [],experience: [],keywords: [],location: [],jobType: [],excludeKeywords: []});
   const [selectedJob, setSelectedJob] = useState<JobOffer | null>(null);
   const [isJobDetailOpen, setIsJobDetailOpen] = useState(false);
-
-  // track logged-in user email (id = email in the API)
   const [userEmail, setUserEmail] = useState<string | null>(null);
 
-  // Import job offers, job sources, and filters from backend API when authenticated
   useEffect(() => {
     if (!isAuthenticated || !userEmail) return;
 
@@ -89,7 +84,43 @@ export default function App() {
     };
 
     fetchData();
+
+    const fetchUserProfile = async () => {
+      try {
+        const res = await fetch(
+          `${API_BASE}/api/users/${encodeURIComponent(userEmail)}`
+        );
+        if (!res.ok) throw new Error('Failed to fetch user profile');
+
+        const data: UserProfile = await res.json();
+
+        // If resume is null/None, force CV upload
+        if (!data.resume) {
+          setResumeRequired(true);
+          setActiveTab('cv');
+        } else {
+          setResumeRequired(false);
+        }
+      } catch (err) {
+        console.error('Error fetching user profile:', err);
+      }
+    };
+
+    fetchUserProfile();
   }, [isAuthenticated, userEmail]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [activeTab]);
+  
+  const handleTabChange = (value: string) => {
+    if (resumeRequired && value !== 'cv' && value !== 'settings') {
+      return;
+    }
+    setActiveTab(value);
+  };
+
+  const handleThemeChange = (t: ThemeColor) => setTheme(t);
 
   const handleLogin = (email: string, password: string) => {
     setIsAuthenticated(true);
@@ -110,8 +141,34 @@ export default function App() {
     setUserEmail(null);
     setJobs([]);
     setSources([]);
-    // optional: reset filters to defaults or leave them
+    setRegisterSuccess(false);
+    setResumeRequired(false);
   };
+
+  const handleSaveResume = async (cvText: string) => {
+  if (!userEmail || !cvText) return;
+
+  try {
+    const res = await fetch(
+      `${API_BASE}/api/users/${encodeURIComponent(userEmail)}/resume`,
+      {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ resume: cvText }),
+      }
+    );
+
+    if (!res.ok) {
+      console.error('Failed to save resume');
+      return;
+    }
+
+    // Resume is now stored in DB; unlock the rest of the app
+    setResumeRequired(false);
+  } catch (err) {
+    console.error('Error saving resume:', err);
+  }
+};
 
   const handleAddSource = (newSource: Omit<JobSource, 'id'>) => {
     const source: JobSource = {
@@ -170,7 +227,6 @@ export default function App() {
     }
   };
 
-  const [isFiltersDirty, setIsFiltersDirty] = useState(false);
 
   const handleExtractFilters = (extractedFilters: Partial<FilterCriteria>) => {
     setFilters({
@@ -218,7 +274,7 @@ export default function App() {
   }
 
   return (
-    <Tabs value={activeTab} onValueChange={setActiveTab}>
+    <Tabs value={activeTab} onValueChange={handleTabChange}>
       <div className="min-h-screen bg-background">
         <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur-sm">
           <div className="container mx-auto px-4 py-4">
@@ -230,22 +286,22 @@ export default function App() {
                 </div>
 
                 <TabsList className="flex items-center space-x-2">
-                  <TabsTrigger value="dashboard" className="gap-2">
+                  <TabsTrigger value="dashboard" className="gap-2" disabled={resumeRequired}>
                     <Briefcase className="h-4 w-4" />
                     <span>Dashboard</span>
                   </TabsTrigger>
 
-                  <TabsTrigger value="jobs" className="gap-2">
+                  <TabsTrigger value="jobs" className="gap-2" disabled={resumeRequired}>
                     <List className="h-4 w-4" />
                     <span>Jobs</span>
                   </TabsTrigger>
 
-                  <TabsTrigger value="sources" className="gap-2">
+                  <TabsTrigger value="sources" className="gap-2" disabled={resumeRequired}>
                     <Database className="h-4 w-4" />
                     <span>Sources</span>
                   </TabsTrigger>
 
-                  <TabsTrigger value="filters" className="gap-2">
+                  <TabsTrigger value="filters" className="gap-2" disabled={resumeRequired}>
                     <Settings className="h-4 w-4" />
                     <span>Filters</span>
                   </TabsTrigger>
@@ -319,7 +375,11 @@ export default function App() {
           </TabsContent>
 
           <TabsContent value="cv">
-            <CVUpload onExtractFilters={handleExtractFilters} />
+            <CVUpload
+              onExtractFilters={handleExtractFilters}
+              onSaveResume={handleSaveResume}      // NEW
+              resumeRequired={resumeRequired}      // NEW (for small banner)
+            />
           </TabsContent>
 
           <TabsContent value="settings">

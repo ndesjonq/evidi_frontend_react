@@ -8,11 +8,14 @@ import { FilterCriteria } from '../types';
 
 interface CVUploadProps {
   onExtractFilters: (filters: Partial<FilterCriteria>) => void;
+  onSaveResume?: (cvText: string) => void;   // NEW
+  resumeRequired?: boolean;                  // NEW (for UX messaging)
 }
 
-export function CVUpload({ onExtractFilters }: CVUploadProps) {
+export function CVUpload({ onExtractFilters, onSaveResume, resumeRequired}: CVUploadProps) {
   const [cvText, setCvText] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [extractedData, setExtractedData] = useState<{
     skills: string[];
     experience: string;
@@ -61,21 +64,32 @@ export function CVUpload({ onExtractFilters }: CVUploadProps) {
     }
   };
 
+  const handleSaveCV = async () => {
+    if (!onSaveResume || !cvText) return;
+
+    try {
+      setIsSaving(true);
+      await onSaveResume(cvText);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div>
-        <h2 className='text-primary text-2xl font-bold'>CV Analysis</h2>
+        <h2 className='text-primary text-2xl font-bold'>Reseume Upload</h2>
         <p className="">
-          Upload your CV to automatically extract filter criteria
+          Upload your resume to automatically extract filter criteria
         </p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle className='text-primary font-semibold'>Upload CV</CardTitle>
+            <CardTitle className='text-primary font-semibold'>Upload Resume</CardTitle>
             <CardDescription>
-              Upload your CV or paste its content below
+              Upload your resume or paste its content below
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -121,7 +135,10 @@ export function CVUpload({ onExtractFilters }: CVUploadProps) {
 
             <Button
               className="w-full"
-              onClick={handleExtractFromCV}
+              onClick={() => {
+                handleExtractFromCV();
+                handleSaveCV();
+              }}
               disabled={!cvText || isProcessing}
             >
               {isProcessing ? (
@@ -132,7 +149,7 @@ export function CVUpload({ onExtractFilters }: CVUploadProps) {
               ) : (
                 <>
                   <FileText className="mr-2 h-4 w-4" />
-                  Extract Filters from CV
+                  Save Resume & Extract Filters
                 </>
               )}
             </Button>
@@ -142,16 +159,16 @@ export function CVUpload({ onExtractFilters }: CVUploadProps) {
         <Card>
           <CardHeader>
             <CardTitle className='text-primary font-semibold'>Extracted Data</CardTitle>
-            <CardDescription>
+            {/* <CardDescription>
               AI-powered analysis of your CV
-            </CardDescription>
+            </CardDescription> */}
           </CardHeader>
           <CardContent>
             {!extractedData ? (
               <div className="flex flex-col items-center justify-center h-[380px] text-center">
                 <Sparkles className="h-12 w-12 text-primary mb-4" />
                 <p className="text-primary">
-                  Upload or paste your CV and click "Extract Filters" to see
+                  Upload or paste your resume and click "Extract Filters" to see
                   AI-analyzed results
                 </p>
               </div>

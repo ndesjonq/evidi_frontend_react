@@ -15,8 +15,11 @@ interface SettingsPageProps {
 }
 
 export function SettingsPage({ userEmail }: SettingsPageProps) {
+  // Profile change
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+
+  // Password change
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
