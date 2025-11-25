@@ -10,6 +10,8 @@ interface RegisterProps {
   onSwitchToLogin: (status?: string) => void;
 }
 
+const API_BASE = 'https://testfastapi-flax.vercel.app';
+
 export function Register({ onRegister, onSwitchToLogin }: RegisterProps) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -35,7 +37,7 @@ export function Register({ onRegister, onSwitchToLogin }: RegisterProps) {
 
     setIsLoading(true);
     try {
-      const resp = await fetch('https://testfastapi-flax.vercel.app/api/register', {
+      const resp = await fetch(`${API_BASE}/api/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

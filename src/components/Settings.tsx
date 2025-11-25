@@ -10,6 +10,8 @@ import { Alert, AlertDescription } from './ui/alert';
 import { User, Mail, Lock, Bell, Globe, Trash2, CheckCircle2 } from 'lucide-react';
 import { toast } from 'sonner';
 
+const API_BASE = 'https://testfastapi-flax.vercel.app';
+
 interface SettingsPageProps {
   userEmail: string | null;
 }
@@ -41,7 +43,7 @@ export function SettingsPage({ userEmail }: SettingsPageProps) {
   const fetchProfile = async () => {
       try {
         const res = await fetch(
-          `https://testfastapi-flax.vercel.app/api/users/${encodeURIComponent(userEmail)}`
+          `${API_BASE}/api/users/${encodeURIComponent(userEmail)}`
         );
         if (!res.ok) {
           console.error('Failed to fetch user profile');

@@ -7,6 +7,7 @@ import { Badge } from './ui/badge';
 import { Checkbox } from './ui/checkbox';
 import { X } from 'lucide-react';
 import { FilterCriteria } from '../types';
+import { toast } from 'sonner';
 
 interface FilterConfigurationProps {
   filters: FilterCriteria;

@@ -11,6 +11,7 @@ interface LoginProps {
   successMessage?: string | null;
 }
 
+const API_BASE = 'https://testfastapi-flax.vercel.app';
 
 export function Login({ onLogin, onSwitchToRegister, successMessage }: LoginProps) {
   const [email, setEmail] = useState('');
@@ -24,7 +25,7 @@ export function Login({ onLogin, onSwitchToRegister, successMessage }: LoginProp
     setError(null);
 
     try {
-      const res = await fetch('https://testfastapi-flax.vercel.app/api/login', {
+      const res = await fetch(`${API_BASE}/api/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

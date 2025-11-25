@@ -21,6 +21,7 @@ import { Briefcase, Settings, FileText, Database, List, LogOut } from 'lucide-re
 
 // Types
 import { FilterCriteria, JobOffer, JobSource } from './types';
+import { toast } from 'sonner';
 
 const API_BASE = 'https://testfastapi-flax.vercel.app';
 
@@ -184,9 +185,13 @@ export default function App() {
         }
       );
 
-      if (res.ok) setIsFiltersDirty(false);
+      if (res.ok) {
+        setIsFiltersDirty(false);
+        toast.success("Filters saved successfully");
+      }
     } catch (e) {
       console.error("Error saving filters:", e);
+      toast.error("Failed to save filters");
     }
   };
 
@@ -239,7 +244,7 @@ export default function App() {
     <Tabs value={activeTab} onValueChange={handleTabChange}>
       <div className="min-h-screen bg-background">
         {/* HEADER */}
-        <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur-sm">
+        <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur">
           <div className="container mx-auto px-4 py-4 flex items-center justify-between">
             {/* Left */}
             <div className="flex items-center gap-6">
